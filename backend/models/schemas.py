@@ -95,6 +95,56 @@ class AgentResult(BaseModel):
     error: Optional[str] = None
 
 
+class SubTask(BaseModel):
+    id: str
+    title: str
+    description: str
+    agent_type: str
+    dependencies: list[str] = []
+    estimated_complexity: str = "moderate"
+    tools_needed: list[str] = []
+
+
+class TaskPlan(BaseModel):
+    goal: str
+    subtasks: list[SubTask]
+    execution_order: list[list[str]]
+    estimated_total_steps: int = 0
+    estimated_duration: str = ""
+    requires_human_input: bool = False
+    plan_reasoning: str = ""
+
+
+class SubTaskResult(BaseModel):
+    subtask_id: str
+    agent_name: str
+    status: str
+    output: str
+    files_created: list[str] = []
+    iterations_used: int = 0
+    tokens_used: int = 0
+    duration_ms: int = 0
+    error: Optional[str] = None
+
+
+class TaskResult(BaseModel):
+    task_id: str
+    status: str
+    plan: TaskPlan
+    subtask_results: list[SubTaskResult]
+    final_output: str
+    files_created: list[str] = []
+    total_iterations: int = 0
+    total_tokens: int = 0
+    total_duration_ms: int = 0
+    total_tool_calls: int = 0
+
+
+class PlanUpdate(BaseModel):
+    subtasks: Optional[list[SubTask]] = None
+    execution_order: Optional[list[list[str]]] = None
+
+
 class WSEvent(BaseModel):
     type: str
     agent_name: str = ""
