@@ -47,4 +47,10 @@ export const api = {
   getWorkspace: (id) => request(`/tasks/${id}/workspace`),
 
   getWorkspaceFile: (id, path) => request(`/tasks/${id}/workspace/${path}`),
+
+  createFollowup: (id, goal) =>
+    request(`/tasks/${id}/followup`, {
+      method: 'POST',
+      body: JSON.stringify({ goal }),
+    }),
 };

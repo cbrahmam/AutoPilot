@@ -1,12 +1,24 @@
 import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { Pause, Play, XCircle, ArrowLeft } from 'lucide-react';
+import {
+  Pause, Play, XCircle, ArrowLeft, Activity, Terminal, FolderOpen, BarChart3,
+} from 'lucide-react';
 import { api } from '../api/client';
 import { useTaskStore } from '../store/taskStore';
 import { useWebSocket } from '../hooks/useWebSocket';
 import ExecutionStream from '../components/ExecutionStream';
 import Sidebar from '../components/Sidebar';
 import ApprovalModal from '../components/ApprovalModal';
+import TerminalView from '../components/TerminalView';
+import WorkspaceViewer from '../components/WorkspaceViewer';
+import TaskResult from '../components/TaskResult';
+
+const TABS = [
+  { id: 'execution', label: 'Execution', icon: Activity },
+  { id: 'terminal', label: 'Terminal', icon: Terminal },
+  { id: 'workspace', label: 'Workspace', icon: FolderOpen },
+  { id: 'result', label: 'Result', icon: BarChart3 },
+];
 
 export default function TaskDetailPage() {
   const { taskId } = useParams();
@@ -24,6 +36,9 @@ export default function TaskDetailPage() {
   const events = useTaskStore((s) => s.events);
 
   const [error, setError] = useState(null);
+  const [activeTab, setActiveTab] = useState('execution');
+
+  const isDone = currentTask?.status === 'completed' || currentTask?.status === 'failed';
 
   useEffect(() => {
     clearEvents();
@@ -33,6 +48,12 @@ export default function TaskDetailPage() {
       setIsExecuting(false);
     };
   }, [taskId]);
+
+  useEffect(() => {
+    if (isDone && !isExecuting) {
+      setActiveTab('result');
+    }
+  }, [isDone, isExecuting]);
 
   const loadTask = async () => {
     try {
@@ -74,9 +95,6 @@ export default function TaskDetailPage() {
     sendMessage({ type: 'human_response', request_id: requestId, approved, response });
     setApprovalRequest(null);
   };
-
-  const completeEvent = events.find((e) => e.type === 'complete');
-  const finalOutput = completeEvent?.data?.output || currentTask?.result;
 
   return (
     <div className="h-full flex flex-col">
@@ -122,20 +140,37 @@ export default function TaskDetailPage() {
         )}
       </div>
 
+      {/* Tab bar */}
+      <div className="border-b border-border bg-bg-secondary flex">
+        {TABS.map((tab) => {
+          const Icon = tab.icon;
+          const isActive = activeTab === tab.id;
+          return (
+            <button
+              key={tab.id}
+              onClick={() => setActiveTab(tab.id)}
+              className={`flex items-center gap-1.5 px-4 py-2 text-xs font-medium border-b-2 transition-colors ${
+                isActive
+                  ? 'border-accent text-accent'
+                  : 'border-transparent text-text-muted hover:text-text-secondary'
+              }`}
+            >
+              <Icon className="w-3.5 h-3.5" />
+              {tab.label}
+            </button>
+          );
+        })}
+      </div>
+
       {/* Body */}
       <div className="flex-1 flex overflow-hidden">
-        <div className="flex-1 flex flex-col">
-          <ExecutionStream />
-          {finalOutput && !isExecuting && (
-            <div className="border-t border-border p-4 bg-bg-secondary max-h-64 overflow-y-auto">
-              <h3 className="text-sm font-semibold text-text-primary mb-2">Result</h3>
-              <div className="text-sm text-text-secondary whitespace-pre-wrap font-mono">
-                {finalOutput}
-              </div>
-            </div>
-          )}
+        <div className="flex-1 overflow-hidden">
+          {activeTab === 'execution' && <ExecutionStream />}
+          {activeTab === 'terminal' && <TerminalView />}
+          {activeTab === 'workspace' && <WorkspaceViewer taskId={taskId} />}
+          {activeTab === 'result' && <TaskResult task={currentTask} events={events} />}
         </div>
-        <Sidebar />
+        {activeTab === 'execution' && <Sidebar />}
       </div>
 
       {error && (
