@@ -43,6 +43,7 @@ def create_default_registry(emit_callback: Optional[Callable] = None) -> ToolReg
     from tools.data_analyze import DataAnalyzeTool
     from tools.shell_command import ShellCommandTool
     from tools.ask_human import AskHumanTool
+    from tools.browser import BrowserTool
 
     registry = ToolRegistry()
     registry.register_many([
@@ -53,5 +54,6 @@ def create_default_registry(emit_callback: Optional[Callable] = None) -> ToolReg
         DataAnalyzeTool(),
         ShellCommandTool(),
         AskHumanTool(emit_callback=emit_callback),
+        BrowserTool(),
     ])
     return registry

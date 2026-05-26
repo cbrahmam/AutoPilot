@@ -3,7 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from contextlib import asynccontextmanager
 from config import settings
 from database import init_db
-from routers import tasks, agents, workspace
+from routers import tasks, agents, workspace, templates, stats
 
 
 @asynccontextmanager
@@ -11,6 +11,11 @@ async def lifespan(app: FastAPI):
     settings.workspaces_dir.mkdir(parents=True, exist_ok=True)
     await init_db()
     yield
+    try:
+        from tools.browser import BrowserTool
+        await BrowserTool.cleanup()
+    except Exception:
+        pass
 
 
 app = FastAPI(title="AutoPilot", version="0.1.0", lifespan=lifespan)
@@ -26,3 +31,5 @@ app.add_middleware(
 app.include_router(tasks.router, prefix="/api")
 app.include_router(agents.router, prefix="/api")
 app.include_router(workspace.router, prefix="/api")
+app.include_router(templates.router, prefix="/api")
+app.include_router(stats.router, prefix="/api")

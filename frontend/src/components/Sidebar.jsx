@@ -4,6 +4,7 @@ import { useTaskStore } from '../store/taskStore';
 export default function Sidebar() {
   const agents = useTaskStore((s) => s.agents);
   const events = useTaskStore((s) => s.events);
+  const progress = useTaskStore((s) => s.progress);
 
   const toolCalls = events.filter((e) => e.type === 'tool_call').length;
   const iterations = events.filter((e) => e.type === 'iteration');
@@ -28,6 +29,22 @@ export default function Sidebar() {
         <h3 className="text-sm font-semibold text-text-secondary uppercase tracking-wider mb-3">
           Progress
         </h3>
+
+        {progress && (
+          <div className="mb-3">
+            <div className="flex justify-between text-xs text-text-secondary mb-1">
+              <span>{progress.completed}/{progress.total} subtasks</span>
+              <span>{progress.percentage}%</span>
+            </div>
+            <div className="h-2 bg-bg-tertiary rounded-full overflow-hidden">
+              <div
+                className="h-full bg-accent rounded-full transition-all duration-500"
+                style={{ width: `${progress.percentage}%` }}
+              />
+            </div>
+          </div>
+        )}
+
         <div className="space-y-2 text-sm">
           <div className="flex justify-between text-text-secondary">
             <span>Agents</span>

@@ -8,6 +8,7 @@ from tools.code_execute import CodeExecuteTool
 from tools.data_analyze import DataAnalyzeTool
 from tools.shell_command import ShellCommandTool
 from tools.ask_human import AskHumanTool
+from tools.browser import BrowserTool
 from specialists.researcher import RESEARCHER_SYSTEM_PROMPT, RESEARCHER_TOOLS
 from specialists.coder import CODER_SYSTEM_PROMPT, CODER_TOOLS
 from specialists.analyst import ANALYST_SYSTEM_PROMPT, ANALYST_TOOLS
@@ -20,6 +21,7 @@ _ALL_TOOLS = {
     "code_execute": CodeExecuteTool,
     "data_analyze": DataAnalyzeTool,
     "shell_command": ShellCommandTool,
+    "browser": BrowserTool,
 }
 
 _SPECIALIST_CONFIG = {

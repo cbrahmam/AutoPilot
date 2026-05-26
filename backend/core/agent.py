@@ -1,4 +1,5 @@
 import asyncio
+import json
 import time
 from datetime import datetime, timezone
 from typing import Optional, Callable
@@ -158,6 +159,8 @@ class Agent:
                         self.files_created.append(file_path)
 
                 result_content = result.output if result.success else f"Error: {result.error}\n{result.output}"
+                if len(result_content) > settings.max_tool_output_chars:
+                    result_content = result_content[:settings.max_tool_output_chars] + "\n... [truncated]"
                 tool_results_content.append({
                     "type": "tool_result",
                     "tool_use_id": tool_use_id,
@@ -238,8 +241,30 @@ class Agent:
         max_msgs = settings.max_conversation_messages
         if len(self.conversation_history) <= max_msgs:
             return
-        keep = max_msgs - 1
-        self.conversation_history = self.conversation_history[:1] + self.conversation_history[-keep:]
+
+        first_msg = self.conversation_history[0]
+        old_msgs = self.conversation_history[1:-10]
+        recent_msgs = self.conversation_history[-10:]
+
+        summary_parts = []
+        for msg in old_msgs:
+            if msg["role"] == "assistant":
+                content = msg.get("content", [])
+                if isinstance(content, list):
+                    for block in content:
+                        if isinstance(block, dict):
+                            if block.get("type") == "text":
+                                summary_parts.append(f"Thought: {block['text'][:200]}")
+                            elif block.get("type") == "tool_use":
+                                summary_parts.append(f"Used tool: {block['name']}({json.dumps(block['input'])[:100]})")
+
+        if summary_parts:
+            summary_text = "[Conversation summary - older messages condensed]\n" + "\n".join(summary_parts[-20:])
+            summary_msg = {"role": "user", "content": [{"type": "tool_result", "tool_use_id": "summary", "content": summary_text}]}
+            self.conversation_history = [first_msg] + recent_msgs
+        else:
+            keep = max_msgs - 1
+            self.conversation_history = [first_msg] + self.conversation_history[-keep:]
 
     async def _emit_event(self, event_type: str, data: dict):
         if self._emit:

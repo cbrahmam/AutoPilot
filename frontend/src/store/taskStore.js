@@ -8,6 +8,7 @@ export const useTaskStore = create((set, get) => ({
   agents: [],
   isExecuting: false,
   approvalRequest: null,
+  progress: null,
 
   setTasks: (tasks) => set({ tasks }),
 
@@ -20,7 +21,7 @@ export const useTaskStore = create((set, get) => ({
   addEvent: (event) =>
     set((state) => ({ events: [...state.events, event] })),
 
-  clearEvents: () => set({ events: [] }),
+  clearEvents: () => set({ events: [], progress: null }),
 
   updateAgent: (agentData) =>
     set((state) => {
@@ -65,11 +66,14 @@ export const useTaskStore = create((set, get) => ({
           duration_ms: data.duration_ms,
         });
         break;
+      case 'progress':
+        set({ progress: data });
+        break;
       case 'human_request':
         get().setApprovalRequest(data);
         break;
       case 'complete':
-        set({ isExecuting: false });
+        set({ isExecuting: false, progress: { percentage: 100, completed: data.subtasks_completed || 1, total: data.subtasks_completed || 1 } });
         break;
       case 'error':
         set({ isExecuting: false });

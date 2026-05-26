@@ -100,6 +100,21 @@ export default function ExecutionStream() {
               </div>
             );
 
+          case 'progress':
+            return (
+              <div key={i} className="animate-fade-in py-1 px-3">
+                <div className="flex items-center gap-2">
+                  <div className="flex-1 h-1.5 bg-bg-tertiary rounded-full overflow-hidden">
+                    <div
+                      className="h-full bg-accent rounded-full transition-all duration-500"
+                      style={{ width: `${event.data.percentage}%` }}
+                    />
+                  </div>
+                  <span className="text-xs text-text-muted">{event.data.percentage}%</span>
+                </div>
+              </div>
+            );
+
           case 'iteration':
           case 'status_change':
           case 'plan_start':

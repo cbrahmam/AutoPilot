@@ -12,4 +12,4 @@ You have access to web search and web browsing tools. Use them strategically:
 Always cite your sources. Verify claims across multiple sources when possible.
 Save key findings to memory as you go so they're not lost."""
 
-RESEARCHER_TOOLS = ["web_search", "web_browse", "file_ops", "save_to_memory"]
+RESEARCHER_TOOLS = ["web_search", "web_browse", "browser", "file_ops", "save_to_memory"]

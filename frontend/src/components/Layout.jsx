@@ -1,12 +1,14 @@
 import { Link, useLocation } from 'react-router-dom';
-import { Plus, History, Cpu } from 'lucide-react';
+import { Plus, History, Cpu, LayoutTemplate, BarChart3 } from 'lucide-react';
 
 export default function Layout({ children }) {
   const location = useLocation();
 
   const navItems = [
     { path: '/', icon: Plus, label: 'New Task' },
+    { path: '/templates', icon: LayoutTemplate, label: 'Templates' },
     { path: '/history', icon: History, label: 'History' },
+    { path: '/stats', icon: BarChart3, label: 'Stats' },
   ];
 
   return (

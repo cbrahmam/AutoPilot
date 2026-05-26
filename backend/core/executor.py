@@ -78,9 +78,18 @@ class PlanExecutor:
             if tasks:
                 await asyncio.gather(*tasks)
 
+            completed_count = sum(1 for r in self.subtask_results.values() if r.status in ("completed", "failed", "skipped"))
+            total_count = len(self.plan.subtasks)
+            progress_pct = int((completed_count / total_count) * 100) if total_count > 0 else 0
+
             await self._emit_event("layer_complete", {
                 "layer": layer_idx + 1,
                 "results": {sid: r.status for sid, r in self.subtask_results.items()},
+            })
+            await self._emit_event("progress", {
+                "completed": completed_count,
+                "total": total_count,
+                "percentage": progress_pct,
             })
 
         total_duration = int((time.perf_counter() - start_time) * 1000)
@@ -95,6 +104,7 @@ class PlanExecutor:
             all_files.extend(r.files_created)
             total_iterations += r.iterations_used
             total_tokens += r.tokens_used
+            total_tool_calls += getattr(r, 'tool_calls', 0)
 
         any_failed = any(r.status == "failed" for r in self.subtask_results.values())
         all_failed = all(r.status == "failed" for r in self.subtask_results.values())

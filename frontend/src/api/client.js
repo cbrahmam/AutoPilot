@@ -53,4 +53,16 @@ export const api = {
       method: 'POST',
       body: JSON.stringify({ goal }),
     }),
+
+  getTemplates: () => request('/templates'),
+
+  useTemplate: (templateId, variables) =>
+    request(`/templates/${templateId}/use`, {
+      method: 'POST',
+      body: JSON.stringify(variables),
+    }),
+
+  getStats: () => request('/stats'),
+
+  getTaskCost: (id) => request(`/tasks/${id}/cost`),
 };
