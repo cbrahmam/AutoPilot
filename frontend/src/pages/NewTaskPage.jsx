@@ -1,9 +1,13 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
+import { Play, Search, Code, BarChart3 } from 'lucide-react';
 import TaskInput from '../components/TaskInput';
 import PlanView from '../components/PlanView';
 import { api } from '../api/client';
 import { useTaskStore } from '../store/taskStore';
+import { SAMPLE_TASKS } from '../data/sampleTasks';
+
+const DEMO_ICONS = { 'demo-ai-assistants': Search, 'demo-maze-solver': Code, 'demo-sales-analysis': BarChart3 };
 
 export default function NewTaskPage() {
   const navigate = useNavigate();
@@ -79,6 +83,32 @@ export default function NewTaskPage() {
           {error && (
             <p className="mt-4 text-sm text-red">{error}</p>
           )}
+
+          <div className="max-w-3xl w-full mt-10">
+            <p className="text-xs text-text-muted mb-3 uppercase tracking-wider">Try AutoPilot</p>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+              {SAMPLE_TASKS.map((demo) => {
+                const Icon = DEMO_ICONS[demo.id] || Play;
+                return (
+                  <Link
+                    key={demo.id}
+                    to={`/demo/${demo.id}`}
+                    className="flex items-start gap-3 p-3 rounded-lg border border-border bg-bg-secondary hover:bg-bg-tertiary transition-colors no-underline group"
+                  >
+                    <Icon className="w-4 h-4 text-purple shrink-0 mt-0.5" />
+                    <div className="min-w-0">
+                      <p className="text-sm text-text-secondary group-hover:text-text-primary truncate">
+                        {demo.goal}
+                      </p>
+                      <p className="text-xs text-text-muted mt-1">
+                        {demo.total_tool_calls} tool calls &middot; {(demo.total_tokens / 1000).toFixed(1)}k tokens
+                      </p>
+                    </div>
+                  </Link>
+                );
+              })}
+            </div>
+          </div>
         </div>
       ) : (
         <div>

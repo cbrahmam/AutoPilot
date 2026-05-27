@@ -58,7 +58,14 @@ export default function HistoryPage() {
       </div>
 
       {loading ? (
-        <p className="text-sm text-text-muted">Loading...</p>
+        <div className="space-y-2">
+          {[1, 2, 3].map((i) => (
+            <div key={i} className="p-3 rounded-lg border border-border bg-bg-secondary">
+              <div className="skeleton h-4 w-3/4 mb-2" />
+              <div className="skeleton h-3 w-1/3" />
+            </div>
+          ))}
+        </div>
       ) : (
         <TaskHistory tasks={filtered} />
       )}

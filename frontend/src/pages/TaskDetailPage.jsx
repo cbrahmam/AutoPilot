@@ -12,6 +12,8 @@ import ApprovalModal from '../components/ApprovalModal';
 import TerminalView from '../components/TerminalView';
 import WorkspaceViewer from '../components/WorkspaceViewer';
 import TaskResult from '../components/TaskResult';
+import ShortcutsModal, { useKeyboardShortcuts } from '../components/KeyboardShortcuts';
+import { toast } from '../components/Toast';
 
 const TABS = [
   { id: 'execution', label: 'Execution', icon: Activity },
@@ -39,6 +41,22 @@ export default function TaskDetailPage() {
   const [activeTab, setActiveTab] = useState('execution');
 
   const isDone = currentTask?.status === 'completed' || currentTask?.status === 'failed';
+
+  const handlePause = async () => {
+    try { await api.pauseTask(taskId); toast('Task paused', 'info'); } catch {}
+  };
+  const handleResume = async () => {
+    try { await api.resumeTask(taskId); toast('Task resumed', 'info'); } catch {}
+  };
+  const handleCancel = async () => {
+    try { await api.cancelTask(taskId); toast('Task cancelled', 'warning'); } catch {}
+  };
+
+  const { showHelp, setShowHelp } = useKeyboardShortcuts({
+    onPause: isExecuting ? handlePause : undefined,
+    onResume: currentTask?.status === 'paused' ? handleResume : undefined,
+    onCancel: isExecuting ? handleCancel : undefined,
+  });
 
   useEffect(() => {
     clearEvents();
@@ -77,18 +95,6 @@ export default function TaskDetailPage() {
     } catch (e) {
       setError(e.message);
     }
-  };
-
-  const handlePause = async () => {
-    try { await api.pauseTask(taskId); } catch {}
-  };
-
-  const handleResume = async () => {
-    try { await api.resumeTask(taskId); } catch {}
-  };
-
-  const handleCancel = async () => {
-    try { await api.cancelTask(taskId); } catch {}
   };
 
   const handleApprovalRespond = (requestId, approved, response) => {
@@ -180,6 +186,7 @@ export default function TaskDetailPage() {
       )}
 
       <ApprovalModal request={approvalRequest} onRespond={handleApprovalRespond} />
+      <ShortcutsModal open={showHelp} onClose={() => setShowHelp(false)} />
     </div>
   );
 }

@@ -1,5 +1,5 @@
 import { Link, useLocation } from 'react-router-dom';
-import { Plus, History, Cpu, LayoutTemplate, BarChart3 } from 'lucide-react';
+import { Plus, History, Cpu, LayoutTemplate, BarChart3, Settings } from 'lucide-react';
 
 export default function Layout({ children }) {
   const location = useLocation();
@@ -9,6 +9,7 @@ export default function Layout({ children }) {
     { path: '/templates', icon: LayoutTemplate, label: 'Templates' },
     { path: '/history', icon: History, label: 'History' },
     { path: '/stats', icon: BarChart3, label: 'Stats' },
+    { path: '/settings', icon: Settings, label: 'Settings' },
   ];
 
   return (

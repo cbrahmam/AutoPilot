@@ -1,4 +1,5 @@
 import { create } from 'zustand';
+import { toast } from '../components/Toast';
 
 export const useTaskStore = create((set, get) => ({
   tasks: [],
@@ -65,6 +66,7 @@ export const useTaskStore = create((set, get) => ({
           status: data.status,
           duration_ms: data.duration_ms,
         });
+        toast(`${data.agent_name} ${data.status}`, data.status === 'completed' ? 'success' : 'error');
         break;
       case 'progress':
         set({ progress: data });
@@ -74,9 +76,11 @@ export const useTaskStore = create((set, get) => ({
         break;
       case 'complete':
         set({ isExecuting: false, progress: { percentage: 100, completed: data.subtasks_completed || 1, total: data.subtasks_completed || 1 } });
+        toast('Task completed', 'success');
         break;
       case 'error':
         set({ isExecuting: false });
+        toast(`Error: ${data.error?.slice(0, 80) || 'Unknown error'}`, 'error');
         break;
       default:
         break;
