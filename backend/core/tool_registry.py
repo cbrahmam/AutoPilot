@@ -35,7 +35,7 @@ class ToolRegistry:
         return list(self._tools.keys())
 
 
-def create_default_registry(emit_callback: Optional[Callable] = None) -> ToolRegistry:
+def create_default_registry(emit_callback: Optional[Callable] = None, include_plugins: bool = True) -> ToolRegistry:
     from tools.file_ops import FileOpsTool
     from tools.web_search import WebSearchTool
     from tools.web_browse import WebBrowseTool
@@ -56,4 +56,10 @@ def create_default_registry(emit_callback: Optional[Callable] = None) -> ToolReg
         AskHumanTool(emit_callback=emit_callback),
         BrowserTool(),
     ])
+
+    if include_plugins:
+        from plugins import get_loaded_plugins
+        for tool in get_loaded_plugins().values():
+            registry.register(tool)
+
     return registry

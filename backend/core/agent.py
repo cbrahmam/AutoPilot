@@ -34,6 +34,7 @@ class Agent:
         max_iterations: int = 25,
         require_approval: bool = False,
         emit: Optional[Callable] = None,
+        model_override: str | None = None,
     ):
         self.name = name
         self.role = role
@@ -43,6 +44,7 @@ class Agent:
         self.max_iterations = max_iterations
         self.require_approval = require_approval
         self._emit = emit
+        self.model_name = model_override or settings.model_name
 
         self.memory = AgentMemory(task_id)
         self.conversation_history: list[dict] = []
@@ -200,7 +202,7 @@ class Agent:
             full_system += f"\n\n## Your Working Memory\n{memory_context}"
 
         return await self._client.messages.create(
-            model=settings.model_name,
+            model=self.model_name,
             max_tokens=4096,
             system=full_system,
             tools=self.tool_registry.get_tools_for_claude(),

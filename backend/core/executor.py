@@ -9,6 +9,8 @@ import anthropic
 from config import settings
 from models.schemas import TaskPlan, SubTask, SubTaskResult, TaskResult
 from specialists.factory import create_specialist_agent
+from core.model_router import select_model
+from core.message_bus import MessageBus
 
 
 class PlanExecutor:
@@ -33,6 +35,7 @@ class PlanExecutor:
         self._cancelled = False
         self._paused = asyncio.Event()
         self._paused.set()
+        self.message_bus = MessageBus(emit=emit)
 
     async def execute(self) -> TaskResult:
         start_time = time.perf_counter()
@@ -149,6 +152,13 @@ class PlanExecutor:
 
         context = self._build_context(subtask)
 
+        model = select_model(
+            complexity=subtask.estimated_complexity,
+            agent_type=subtask.agent_type,
+            tool_count=len(subtask.tools_needed),
+            auto_route=settings.auto_model_routing,
+        )
+
         agent = create_specialist_agent(
             agent_type=subtask.agent_type,
             task_id=self.task_id,
@@ -156,7 +166,13 @@ class PlanExecutor:
             max_iterations=self.max_iterations,
             require_approval=self.require_approval,
             emit=self._emit,
+            model_override=model,
         )
+
+        from tools.send_message import SendMessageTool, ReceiveMessagesTool
+        agent.tool_registry.register(SendMessageTool(self.message_bus, agent.name))
+        agent.tool_registry.register(ReceiveMessagesTool(self.message_bus, agent.name))
+
         self.active_agents[subtask.id] = agent
 
         try:

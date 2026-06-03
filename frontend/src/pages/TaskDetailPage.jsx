@@ -13,10 +13,14 @@ import TerminalView from '../components/TerminalView';
 import WorkspaceViewer from '../components/WorkspaceViewer';
 import TaskResult from '../components/TaskResult';
 import ShortcutsModal, { useKeyboardShortcuts } from '../components/KeyboardShortcuts';
+import StreamingPreview from '../components/StreamingPreview';
 import { toast } from '../components/Toast';
+
+import { Eye } from 'lucide-react';
 
 const TABS = [
   { id: 'execution', label: 'Execution', icon: Activity },
+  { id: 'preview', label: 'Preview', icon: Eye },
   { id: 'terminal', label: 'Terminal', icon: Terminal },
   { id: 'workspace', label: 'Workspace', icon: FolderOpen },
   { id: 'result', label: 'Result', icon: BarChart3 },
@@ -172,6 +176,11 @@ export default function TaskDetailPage() {
       <div className="flex-1 flex overflow-hidden">
         <div className="flex-1 overflow-hidden">
           {activeTab === 'execution' && <ExecutionStream />}
+          {activeTab === 'preview' && (
+            <div className="p-4 overflow-y-auto h-full">
+              <StreamingPreview events={events} finalResult={isDone ? currentTask?.result : null} />
+            </div>
+          )}
           {activeTab === 'terminal' && <TerminalView />}
           {activeTab === 'workspace' && <WorkspaceViewer taskId={taskId} />}
           {activeTab === 'result' && <TaskResult task={currentTask} events={events} />}

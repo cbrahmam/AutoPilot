@@ -65,4 +65,28 @@ export const api = {
   getStats: () => request('/stats'),
 
   getTaskCost: (id) => request(`/tasks/${id}/cost`),
+
+  getPlugins: () => request('/plugins'),
+
+  reloadPlugins: () => request('/plugins/reload', { method: 'POST' }),
+
+  getSchedules: () => request('/schedules'),
+
+  createSchedule: (data) =>
+    request('/schedules', { method: 'POST', body: JSON.stringify(data) }),
+
+  updateSchedule: (id, data) =>
+    request(`/schedules/${id}`, { method: 'PUT', body: JSON.stringify(data) }),
+
+  deleteSchedule: (id) =>
+    request(`/schedules/${id}`, { method: 'DELETE' }),
+
+  getChatSessions: () => request('/chat/sessions'),
+
+  createChatSession: () => request('/chat/sessions', { method: 'POST' }),
+
+  getChatMessages: (sessionId) => request(`/chat/sessions/${sessionId}/messages`),
+
+  deleteChatSession: (sessionId) =>
+    request(`/chat/sessions/${sessionId}`, { method: 'DELETE' }),
 };

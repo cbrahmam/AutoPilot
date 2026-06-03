@@ -14,6 +14,8 @@ class Settings(BaseSettings):
     human_approval_timeout: int = 300
 
     sandbox_mode: str = "subprocess"
+    auto_model_routing: bool = True
+    plugins_dir: str = ""
 
     base_dir: Path = Path(__file__).parent
     workspaces_dir: Path = Path(__file__).parent / "workspaces"

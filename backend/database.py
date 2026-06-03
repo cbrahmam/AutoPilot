@@ -42,6 +42,42 @@ CREATE TABLE IF NOT EXISTS agent_memory (
     created_at TEXT,
     FOREIGN KEY (task_id) REFERENCES tasks(id)
 );
+
+CREATE TABLE IF NOT EXISTS schedules (
+    id TEXT PRIMARY KEY,
+    name TEXT NOT NULL,
+    goal TEXT NOT NULL,
+    cron_expr TEXT NOT NULL,
+    max_iterations INTEGER DEFAULT 25,
+    enabled INTEGER DEFAULT 1,
+    run_count INTEGER DEFAULT 0,
+    last_run TEXT,
+    created_at TEXT
+);
+
+CREATE TABLE IF NOT EXISTS chat_sessions (
+    id TEXT PRIMARY KEY,
+    title TEXT,
+    created_at TEXT,
+    updated_at TEXT
+);
+
+CREATE TABLE IF NOT EXISTS chat_messages (
+    id TEXT PRIMARY KEY,
+    session_id TEXT,
+    role TEXT NOT NULL,
+    content TEXT NOT NULL,
+    created_at TEXT,
+    FOREIGN KEY (session_id) REFERENCES chat_sessions(id)
+);
+
+CREATE TABLE IF NOT EXISTS users (
+    id TEXT PRIMARY KEY,
+    email TEXT UNIQUE NOT NULL,
+    password_hash TEXT NOT NULL,
+    display_name TEXT,
+    created_at TEXT
+);
 """
 
 

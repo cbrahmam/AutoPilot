@@ -51,6 +51,7 @@ def create_specialist_agent(
     max_iterations: int = 25,
     require_approval: bool = False,
     emit: Optional[Callable] = None,
+    model_override: str | None = None,
 ) -> Agent:
     config = _SPECIALIST_CONFIG.get(agent_type)
 
@@ -74,4 +75,5 @@ def create_specialist_agent(
         max_iterations=max_iterations,
         require_approval=require_approval,
         emit=emit,
+        model_override=model_override,
     )

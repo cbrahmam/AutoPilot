@@ -1,14 +1,25 @@
-import { Link, useLocation } from 'react-router-dom';
-import { Plus, History, Cpu, LayoutTemplate, BarChart3, Settings } from 'lucide-react';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Plus, History, Cpu, LayoutTemplate, BarChart3, Settings, Puzzle, Clock, MessageSquare, LogOut } from 'lucide-react';
 
 export default function Layout({ children }) {
   const location = useLocation();
+  const navigate = useNavigate();
+  const user = (() => { try { return JSON.parse(localStorage.getItem('autopilot_user')); } catch { return null; } })();
+
+  const handleLogout = () => {
+    localStorage.removeItem('autopilot_token');
+    localStorage.removeItem('autopilot_user');
+    navigate('/login');
+  };
 
   const navItems = [
     { path: '/', icon: Plus, label: 'New Task' },
+    { path: '/chat', icon: MessageSquare, label: 'Chat' },
     { path: '/templates', icon: LayoutTemplate, label: 'Templates' },
     { path: '/history', icon: History, label: 'History' },
     { path: '/stats', icon: BarChart3, label: 'Stats' },
+    { path: '/schedules', icon: Clock, label: 'Schedules' },
+    { path: '/plugins', icon: Puzzle, label: 'Plugins' },
     { path: '/settings', icon: Settings, label: 'Settings' },
   ];
 
@@ -38,7 +49,16 @@ export default function Layout({ children }) {
           ))}
         </nav>
         <div className="p-4 border-t border-border">
-          <p className="text-xs text-text-muted">AutoPilot v0.1.0</p>
+          {user ? (
+            <div className="flex items-center justify-between">
+              <span className="text-xs text-text-muted truncate">{user.display_name || user.email}</span>
+              <button onClick={handleLogout} className="text-text-muted hover:text-text-primary">
+                <LogOut className="w-3.5 h-3.5" />
+              </button>
+            </div>
+          ) : (
+            <p className="text-xs text-text-muted">AutoPilot v0.2.0</p>
+          )}
         </div>
       </aside>
       <main className="flex-1 overflow-hidden">{children}</main>
