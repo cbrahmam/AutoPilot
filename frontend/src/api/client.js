@@ -116,4 +116,33 @@ export const api = {
 
   getNotificationHistory: (taskId) =>
     request(`/notifications/history${taskId ? `?task_id=${taskId}` : ''}`),
+
+  getKnowledgeDocs: () => request('/knowledge'),
+
+  uploadKnowledgeFile: (file) => {
+    const formData = new FormData();
+    formData.append('file', file);
+    return fetch(`${BASE}/knowledge/upload`, { method: 'POST', body: formData })
+      .then(r => { if (!r.ok) throw new Error('Upload failed'); return r.json(); });
+  },
+
+  uploadKnowledgeText: (title, content) => {
+    const formData = new FormData();
+    formData.append('title', title);
+    formData.append('content', content);
+    return fetch(`${BASE}/knowledge/text`, { method: 'POST', body: formData })
+      .then(r => { if (!r.ok) throw new Error('Upload failed'); return r.json(); });
+  },
+
+  deleteKnowledgeDoc: (id) =>
+    request(`/knowledge/${id}`, { method: 'DELETE' }),
+
+  searchKnowledge: (query, topK = 5) =>
+    request('/knowledge/search', {
+      method: 'POST',
+      body: JSON.stringify({ query, top_k: topK }),
+    }),
+
+  reindexKnowledge: () =>
+    request('/knowledge/reindex', { method: 'POST' }),
 };
