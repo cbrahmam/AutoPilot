@@ -25,7 +25,7 @@ Describe your goal in natural language. AutoPilot:
 
 - **Multi-Agent Orchestration** — Planner decomposes goals, Executor runs specialist agents in parallel layers
 - **5 Specialist Agents** — Researcher, Coder, Analyst, Writer, and General-purpose
-- **9 Built-in Tools** — Web search, web browse, browser automation, code execution, file operations, data analysis, shell commands, human-in-the-loop, memory
+- **10 Built-in Tools** — Web search, web browse, browser automation, code execution, file operations, data analysis, shell commands, human-in-the-loop, memory, knowledge search
 - **Agent Collaboration** — Agents send messages to each other during execution to share findings and coordinate work
 - **Smart Model Routing** — Automatically selects Claude Haiku, Sonnet, or Opus based on subtask complexity and agent type
 - **Plugin System** — Drop a Python file into `backend/plugins/` to add custom tools. Hot-reload at runtime.
@@ -42,6 +42,12 @@ Describe your goal in natural language. AutoPilot:
 - **Sandboxed Execution** — Code runs in isolated subprocesses with timeouts, memory limits, and minimal environment variables
 - **Multi-User Auth** — JWT-based authentication with user registration and login
 - **Docker Deployment** — One-command deployment with docker-compose
+- **Webhook Integration** — Receive inbound webhooks from GitHub, Slack, Stripe to auto-trigger tasks with goal templating
+- **Notification System** — Outbound notifications via webhook or Slack when tasks complete or fail
+- **Knowledge Base (RAG)** — Upload documents, auto-chunk and index with TF-IDF, agents can search during execution
+- **Analytics Dashboard** — Interactive charts (Recharts) for tasks over time, token usage, cost trends, tool usage, agent performance
+- **Task Pipelines** — Chain multiple tasks with conditional branching (success/fail gates), output-to-input chaining
+- **Team Collaboration** — Teams with role-based access (admin/member/viewer), task comments, and activity feed
 
 ---
 
@@ -153,6 +159,7 @@ Included plugins: `calculator`, `json_transform`.
 | `check_messages` | Read messages from other agents | Multi-agent tasks only |
 | `calculator` | Evaluate math expressions (plugin) | No code execution |
 | `json_transform` | Transform JSON data (plugin) | Workspace-scoped |
+| `knowledge_search` | Search the knowledge base for relevant documents | Read-only |
 
 ---
 
@@ -215,9 +222,9 @@ playwright install chromium
 
 **Backend**: Python 3.13, FastAPI, Anthropic SDK, aiosqlite, httpx, BeautifulSoup, Pandas, Playwright
 
-**Frontend**: React 19, Vite 8, TailwindCSS 4, Zustand, React Router, Lucide Icons, React Markdown
+**Frontend**: React 19, Vite 8, TailwindCSS 4, Zustand, React Router, Lucide Icons, React Markdown, Recharts
 
-**Database**: SQLite (WAL mode) — tasks, agent_logs, agent_memory, schedules, chat_sessions, users
+**Database**: SQLite (WAL mode) — tasks, agent_logs, agent_memory, schedules, chat_sessions, users, webhooks, kb_documents, pipelines, teams
 
 **AI Models**: Claude Opus 4 / Sonnet 4 / Haiku 4.5 (auto-routed by complexity)
 
@@ -255,17 +262,22 @@ autopilot/
 │   │   ├── model_router.py      # Smart model selection
 │   │   ├── message_bus.py       # Inter-agent messaging
 │   │   ├── scheduler.py         # Cron-based task scheduling
-│   │   └── auth.py              # JWT authentication
-│   ├── tools/                   # 9 built-in tools + messaging
+│   │   ├── auth.py              # JWT authentication
+│   │   ├── webhooks.py          # Webhook engine + signature verification
+│   │   ├── notifications.py     # Outbound notification delivery
+│   │   ├── knowledge_base.py    # TF-IDF document search engine
+│   │   ├── pipelines.py         # Pipeline execution engine
+│   │   └── teams.py             # Team management + activity feed
+│   ├── tools/                   # 10 built-in tools + messaging
 │   ├── plugins/                 # Custom tool plugins
 │   │   ├── calculator.py        # Math expression evaluator
 │   │   └── json_transform.py    # JSON transformation tool
 │   ├── specialists/             # Agent configurations
-│   ├── routers/                 # API endpoints
+│   ├── routers/                 # API endpoints (14 routers)
 │   └── models/                  # Schemas + DB models
 ├── frontend/
 │   ├── src/
-│   │   ├── pages/               # NewTask, Chat, TaskDetail, History, Templates, Stats, Schedules, Plugins, Settings, Login
+│   │   ├── pages/               # NewTask, Chat, TaskDetail, History, Templates, Stats, Analytics, Schedules, Plugins, Webhooks, Knowledge, Pipelines, Teams, Settings, Login
 │   │   ├── components/          # ExecutionStream, StreamingPreview, Sidebar, ToolCallCard, WorkspaceViewer, etc.
 │   │   ├── store/               # Zustand state management
 │   │   ├── hooks/               # WebSocket hook
