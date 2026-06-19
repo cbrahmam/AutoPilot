@@ -16,6 +16,7 @@ from core.executor import PlanExecutor
 from core.tool_registry import create_default_registry
 from core.notifications import fire_task_event
 from tools.ask_human import resolve_human_request
+from core.audit import log_audit
 
 router = APIRouter()
 
@@ -34,6 +35,7 @@ async def create_new_task(body: TaskCreate):
     async with get_db() as db:
         await create_task(db, body.goal, body.require_approval, body.max_iterations, workspace_path, task_id=task_id)
         task = await get_task(db, task_id)
+        await log_audit("", "", "task.create", "task", task_id, f"Goal: {body.goal[:200]}")
         return TaskResponse(**task)
 
 

@@ -3,6 +3,7 @@ from pydantic import BaseModel
 
 from core.auth import decode_token
 from core.vault import store_key, list_keys, delete_key, update_key
+from core.audit import log_audit
 
 router = APIRouter()
 
@@ -39,7 +40,9 @@ async def create_key(body: KeyCreate, request: Request):
     user_id = _get_user_id(request)
     if not body.api_key or len(body.api_key) < 4:
         raise HTTPException(400, "API key is too short")
-    return await store_key(body.name, body.service, body.api_key, body.team_id, user_id)
+    result = await store_key(body.name, body.service, body.api_key, body.team_id, user_id)
+    await log_audit(user_id, "", "vault.key_create", "vault_key", result.get("id", ""), f"Service: {body.service}")
+    return result
 
 
 @router.put("/vault/keys/{key_id}")
@@ -54,4 +57,5 @@ async def update_existing_key(key_id: str, body: KeyUpdate):
 @router.delete("/vault/keys/{key_id}")
 async def delete_existing_key(key_id: str):
     await delete_key(key_id)
+    await log_audit("", "", "vault.key_delete", "vault_key", key_id)
     return {"status": "deleted"}

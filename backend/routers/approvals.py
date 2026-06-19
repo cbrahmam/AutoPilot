@@ -2,6 +2,7 @@ from fastapi import APIRouter, HTTPException, Request
 from pydantic import BaseModel
 
 from core.auth import decode_token
+from core.audit import log_audit
 from core.approvals import (
     create_approval_rule, list_approval_rules, update_approval_rule, delete_approval_rule,
     request_approval, decide_approval, get_pending_approvals, get_task_approvals,
@@ -51,7 +52,9 @@ async def list_rules():
 
 @router.post("/approvals/rules")
 async def create_rule(body: RuleCreate):
-    return await create_approval_rule(body.name, body.condition, body.approvers, body.auto_approve_after)
+    result = await create_approval_rule(body.name, body.condition, body.approvers, body.auto_approve_after)
+    await log_audit("", "", "approval.rule_create", "approval_rule", result.get("id", ""), f"Rule: {body.name}")
+    return result
 
 
 @router.put("/approvals/rules/{rule_id}")
@@ -88,6 +91,7 @@ async def decide(approval_id: str, body: ApprovalDecision):
     result = await decide_approval(approval_id, body.status, body.comment)
     if not result:
         raise HTTPException(404, "Approval not found")
+    await log_audit("", "", f"approval.{body.status}", "approval", approval_id, body.comment[:200] if body.comment else "")
     return result
 
 
