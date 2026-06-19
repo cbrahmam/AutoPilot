@@ -3,7 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from contextlib import asynccontextmanager
 from config import settings
 from database import init_db
-from routers import tasks, agents, workspace, templates, stats, plugins, schedules, chat, auth, webhooks, knowledge, analytics, pipelines, teams, vault
+from routers import tasks, agents, workspace, templates, stats, plugins, schedules, chat, auth, webhooks, knowledge, analytics, pipelines, teams, vault, approvals
 
 
 @asynccontextmanager
@@ -50,3 +50,4 @@ app.include_router(analytics.router, prefix="/api")
 app.include_router(pipelines.router, prefix="/api")
 app.include_router(teams.router, prefix="/api")
 app.include_router(vault.router, prefix="/api")
+app.include_router(approvals.router, prefix="/api")
