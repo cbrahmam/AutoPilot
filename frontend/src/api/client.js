@@ -177,4 +177,36 @@ export const api = {
     request(`/pipelines/${id}/run`, { method: 'POST' }),
 
   getPipelineRuns: (id) => request(`/pipelines/${id}/runs`),
+
+  getTeams: () => request('/teams'),
+
+  createTeam: (data) =>
+    request('/teams', { method: 'POST', body: JSON.stringify(data) }),
+
+  getTeam: (id) => request(`/teams/${id}`),
+
+  deleteTeam: (id) =>
+    request(`/teams/${id}`, { method: 'DELETE' }),
+
+  getTeamMembers: (teamId) => request(`/teams/${teamId}/members`),
+
+  addTeamMember: (teamId, data) =>
+    request(`/teams/${teamId}/members`, { method: 'POST', body: JSON.stringify(data) }),
+
+  removeTeamMember: (teamId, userId) =>
+    request(`/teams/${teamId}/members/${userId}`, { method: 'DELETE' }),
+
+  updateMemberRole: (teamId, userId, role) =>
+    request(`/teams/${teamId}/members/${userId}/role`, { method: 'PUT', body: JSON.stringify({ role }) }),
+
+  getTaskComments: (taskId) => request(`/tasks/${taskId}/comments`),
+
+  addTaskComment: (taskId, content) =>
+    request(`/tasks/${taskId}/comments`, { method: 'POST', body: JSON.stringify({ content }) }),
+
+  deleteComment: (commentId) =>
+    request(`/comments/${commentId}`, { method: 'DELETE' }),
+
+  getActivity: (teamId) =>
+    request(`/activity${teamId ? `?team_id=${teamId}` : ''}`),
 };
