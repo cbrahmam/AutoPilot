@@ -211,4 +211,16 @@ export const api = {
 
   getActivity: (teamId) =>
     request(`/activity${teamId ? `?team_id=${teamId}` : ''}`),
+
+  getVaultKeys: (teamId) =>
+    request(`/vault/keys${teamId ? `?team_id=${teamId}` : ''}`),
+
+  createVaultKey: (data) =>
+    request('/vault/keys', { method: 'POST', body: JSON.stringify(data) }),
+
+  updateVaultKey: (id, data) =>
+    request(`/vault/keys/${id}`, { method: 'PUT', body: JSON.stringify(data) }),
+
+  deleteVaultKey: (id) =>
+    request(`/vault/keys/${id}`, { method: 'DELETE' }),
 };
