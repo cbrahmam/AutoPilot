@@ -145,4 +145,18 @@ export const api = {
 
   reindexKnowledge: () =>
     request('/knowledge/reindex', { method: 'POST' }),
+
+  getAnalyticsOverview: () => request('/analytics/overview'),
+
+  getTasksOverTime: () => request('/analytics/tasks-over-time'),
+
+  getTokensOverTime: () => request('/analytics/tokens-over-time'),
+
+  getAgentPerformance: () => request('/analytics/agent-performance'),
+
+  getToolUsage: () => request('/analytics/tool-usage'),
+
+  getCostBreakdown: () => request('/analytics/cost-breakdown'),
+
+  getRecentTasksAnalytics: () => request('/analytics/recent-tasks'),
 };
