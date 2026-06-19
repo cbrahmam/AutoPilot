@@ -1,8 +1,10 @@
 const BASE = '/api';
 
 async function request(path, options = {}) {
+  const token = localStorage.getItem('autopilot_token');
+  const authHeaders = token ? { Authorization: `Bearer ${token}` } : {};
   const res = await fetch(`${BASE}${path}`, {
-    headers: { 'Content-Type': 'application/json', ...options.headers },
+    headers: { 'Content-Type': 'application/json', ...authHeaders, ...options.headers },
     ...options,
   });
   if (!res.ok) {
