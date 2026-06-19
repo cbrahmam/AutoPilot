@@ -20,6 +20,7 @@ import AnalyticsPage from './pages/AnalyticsPage';
 import PipelinesPage from './pages/PipelinesPage';
 import TeamsPage from './pages/TeamsPage';
 import VaultPage from './pages/VaultPage';
+import ApprovalsPage from './pages/ApprovalsPage';
 
 export default function App() {
   return (
@@ -42,6 +43,7 @@ export default function App() {
               <Route path="/pipelines" element={<PipelinesPage />} />
               <Route path="/teams" element={<TeamsPage />} />
               <Route path="/vault" element={<VaultPage />} />
+              <Route path="/approvals" element={<ApprovalsPage />} />
               <Route path="/settings" element={<SettingsPage />} />
               <Route path="/demo/:demoId" element={<DemoReplayPage />} />
               <Route path="/login" element={<LoginPage />} />
