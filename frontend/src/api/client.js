@@ -244,4 +244,17 @@ export const api = {
     request(`/approvals/${approvalId}/decide`, { method: 'POST', body: JSON.stringify({ status, comment }) }),
 
   getTaskApprovals: (taskId) => request(`/tasks/${taskId}/approvals`),
+
+  exportReportHtml: (taskId) => `${BASE}/reports/${taskId}/html`,
+
+  exportReportCsv: (taskId) => `${BASE}/reports/${taskId}/csv`,
+
+  createSharedReport: (data) =>
+    request('/reports/share', { method: 'POST', body: JSON.stringify(data) }),
+
+  getSharedReports: (taskId) =>
+    request(`/reports/shared${taskId ? `?task_id=${taskId}` : ''}`),
+
+  deleteSharedReport: (id) =>
+    request(`/reports/shared/${id}`, { method: 'DELETE' }),
 };
