@@ -204,6 +204,65 @@ CREATE TABLE IF NOT EXISTS activity_feed (
     details TEXT,
     created_at TEXT
 );
+
+CREATE TABLE IF NOT EXISTS api_keys (
+    id TEXT PRIMARY KEY,
+    name TEXT NOT NULL,
+    service TEXT NOT NULL,
+    encrypted_key TEXT NOT NULL,
+    team_id TEXT,
+    created_by TEXT,
+    use_count INTEGER DEFAULT 0,
+    last_used TEXT,
+    created_at TEXT
+);
+
+CREATE TABLE IF NOT EXISTS audit_log (
+    id TEXT PRIMARY KEY,
+    user_id TEXT,
+    user_email TEXT,
+    action TEXT NOT NULL,
+    target_type TEXT,
+    target_id TEXT,
+    details TEXT,
+    ip_address TEXT,
+    created_at TEXT
+);
+
+CREATE TABLE IF NOT EXISTS task_approvals (
+    id TEXT PRIMARY KEY,
+    task_id TEXT,
+    requested_by TEXT,
+    assigned_to TEXT,
+    status TEXT DEFAULT 'pending',
+    comment TEXT,
+    decided_at TEXT,
+    created_at TEXT,
+    FOREIGN KEY (task_id) REFERENCES tasks(id)
+);
+
+CREATE TABLE IF NOT EXISTS approval_rules (
+    id TEXT PRIMARY KEY,
+    name TEXT NOT NULL,
+    condition TEXT NOT NULL,
+    approvers TEXT NOT NULL,
+    auto_approve_after INTEGER DEFAULT 0,
+    enabled INTEGER DEFAULT 1,
+    created_at TEXT
+);
+
+CREATE TABLE IF NOT EXISTS shared_reports (
+    id TEXT PRIMARY KEY,
+    task_id TEXT,
+    title TEXT NOT NULL,
+    format TEXT DEFAULT 'html',
+    content TEXT,
+    share_token TEXT UNIQUE,
+    expires_at TEXT,
+    view_count INTEGER DEFAULT 0,
+    created_by TEXT,
+    created_at TEXT
+);
 """
 
 
