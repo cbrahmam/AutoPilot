@@ -44,6 +44,7 @@ def create_default_registry(emit_callback: Optional[Callable] = None, include_pl
     from tools.shell_command import ShellCommandTool
     from tools.ask_human import AskHumanTool
     from tools.browser import BrowserTool
+    from tools.knowledge_search import KnowledgeSearchTool
 
     registry = ToolRegistry()
     registry.register_many([
@@ -55,6 +56,7 @@ def create_default_registry(emit_callback: Optional[Callable] = None, include_pl
         ShellCommandTool(),
         AskHumanTool(emit_callback=emit_callback),
         BrowserTool(),
+        KnowledgeSearchTool(),
     ])
 
     if include_plugins:
