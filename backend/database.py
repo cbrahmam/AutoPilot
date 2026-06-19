@@ -164,6 +164,46 @@ CREATE TABLE IF NOT EXISTS pipeline_runs (
     completed_at TEXT,
     FOREIGN KEY (pipeline_id) REFERENCES pipelines(id)
 );
+
+CREATE TABLE IF NOT EXISTS teams (
+    id TEXT PRIMARY KEY,
+    name TEXT NOT NULL,
+    description TEXT,
+    owner_id TEXT,
+    created_at TEXT,
+    FOREIGN KEY (owner_id) REFERENCES users(id)
+);
+
+CREATE TABLE IF NOT EXISTS team_members (
+    id TEXT PRIMARY KEY,
+    team_id TEXT,
+    user_id TEXT,
+    role TEXT DEFAULT 'member',
+    joined_at TEXT,
+    FOREIGN KEY (team_id) REFERENCES teams(id),
+    FOREIGN KEY (user_id) REFERENCES users(id)
+);
+
+CREATE TABLE IF NOT EXISTS task_comments (
+    id TEXT PRIMARY KEY,
+    task_id TEXT,
+    user_id TEXT,
+    content TEXT NOT NULL,
+    created_at TEXT,
+    FOREIGN KEY (task_id) REFERENCES tasks(id),
+    FOREIGN KEY (user_id) REFERENCES users(id)
+);
+
+CREATE TABLE IF NOT EXISTS activity_feed (
+    id TEXT PRIMARY KEY,
+    user_id TEXT,
+    team_id TEXT,
+    action TEXT NOT NULL,
+    target_type TEXT,
+    target_id TEXT,
+    details TEXT,
+    created_at TEXT
+);
 """
 
 
