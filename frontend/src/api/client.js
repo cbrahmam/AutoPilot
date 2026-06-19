@@ -223,4 +223,25 @@ export const api = {
 
   deleteVaultKey: (id) =>
     request(`/vault/keys/${id}`, { method: 'DELETE' }),
+
+  getApprovalRules: () => request('/approvals/rules'),
+
+  createApprovalRule: (data) =>
+    request('/approvals/rules', { method: 'POST', body: JSON.stringify(data) }),
+
+  updateApprovalRule: (id, data) =>
+    request(`/approvals/rules/${id}`, { method: 'PUT', body: JSON.stringify(data) }),
+
+  deleteApprovalRule: (id) =>
+    request(`/approvals/rules/${id}`, { method: 'DELETE' }),
+
+  getPendingApprovals: () => request('/approvals/pending'),
+
+  requestApproval: (taskId, assignedTo) =>
+    request('/approvals/request', { method: 'POST', body: JSON.stringify({ task_id: taskId, assigned_to: assignedTo }) }),
+
+  decideApproval: (approvalId, status, comment) =>
+    request(`/approvals/${approvalId}/decide`, { method: 'POST', body: JSON.stringify({ status, comment }) }),
+
+  getTaskApprovals: (taskId) => request(`/tasks/${taskId}/approvals`),
 };
