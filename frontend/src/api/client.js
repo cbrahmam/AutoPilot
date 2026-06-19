@@ -89,4 +89,31 @@ export const api = {
 
   deleteChatSession: (sessionId) =>
     request(`/chat/sessions/${sessionId}`, { method: 'DELETE' }),
+
+  getWebhooks: () => request('/webhooks'),
+
+  createWebhook: (data) =>
+    request('/webhooks', { method: 'POST', body: JSON.stringify(data) }),
+
+  updateWebhook: (id, data) =>
+    request(`/webhooks/${id}`, { method: 'PUT', body: JSON.stringify(data) }),
+
+  deleteWebhook: (id) =>
+    request(`/webhooks/${id}`, { method: 'DELETE' }),
+
+  getWebhookLogs: (id) => request(`/webhooks/${id}/logs`),
+
+  getNotificationRules: () => request('/notifications/rules'),
+
+  createNotificationRule: (data) =>
+    request('/notifications/rules', { method: 'POST', body: JSON.stringify(data) }),
+
+  updateNotificationRule: (id, data) =>
+    request(`/notifications/rules/${id}`, { method: 'PUT', body: JSON.stringify(data) }),
+
+  deleteNotificationRule: (id) =>
+    request(`/notifications/rules/${id}`, { method: 'DELETE' }),
+
+  getNotificationHistory: (taskId) =>
+    request(`/notifications/history${taskId ? `?task_id=${taskId}` : ''}`),
 };
