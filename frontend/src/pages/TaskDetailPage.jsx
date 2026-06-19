@@ -14,9 +14,10 @@ import WorkspaceViewer from '../components/WorkspaceViewer';
 import TaskResult from '../components/TaskResult';
 import ShortcutsModal, { useKeyboardShortcuts } from '../components/KeyboardShortcuts';
 import StreamingPreview from '../components/StreamingPreview';
+import TaskComments from '../components/TaskComments';
 import { toast } from '../components/Toast';
 
-import { Eye } from 'lucide-react';
+import { Eye, MessageSquare } from 'lucide-react';
 
 const TABS = [
   { id: 'execution', label: 'Execution', icon: Activity },
@@ -24,6 +25,7 @@ const TABS = [
   { id: 'terminal', label: 'Terminal', icon: Terminal },
   { id: 'workspace', label: 'Workspace', icon: FolderOpen },
   { id: 'result', label: 'Result', icon: BarChart3 },
+  { id: 'comments', label: 'Comments', icon: MessageSquare },
 ];
 
 export default function TaskDetailPage() {
@@ -184,6 +186,11 @@ export default function TaskDetailPage() {
           {activeTab === 'terminal' && <TerminalView />}
           {activeTab === 'workspace' && <WorkspaceViewer taskId={taskId} />}
           {activeTab === 'result' && <TaskResult task={currentTask} events={events} />}
+          {activeTab === 'comments' && (
+            <div className="p-4">
+              <TaskComments taskId={taskId} />
+            </div>
+          )}
         </div>
         {activeTab === 'execution' && <Sidebar />}
       </div>
