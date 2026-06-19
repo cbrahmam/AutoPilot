@@ -257,4 +257,24 @@ export const api = {
 
   deleteSharedReport: (id) =>
     request(`/reports/shared/${id}`, { method: 'DELETE' }),
+
+  getAuditLogs: (params = {}) => {
+    const qs = new URLSearchParams();
+    if (params.user_id) qs.set('user_id', params.user_id);
+    if (params.action) qs.set('action', params.action);
+    if (params.target_type) qs.set('target_type', params.target_type);
+    if (params.limit) qs.set('limit', params.limit);
+    if (params.offset) qs.set('offset', params.offset);
+    return request(`/audit/logs?${qs.toString()}`);
+  },
+
+  getAuditStats: () => request('/audit/stats'),
+
+  exportAuditCsv: (params = {}) => {
+    const qs = new URLSearchParams();
+    if (params.user_id) qs.set('user_id', params.user_id);
+    if (params.action) qs.set('action', params.action);
+    if (params.limit) qs.set('limit', params.limit);
+    return `${BASE}/audit/export/csv?${qs.toString()}`;
+  },
 };
