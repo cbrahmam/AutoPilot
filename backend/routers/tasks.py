@@ -14,6 +14,7 @@ from core.agent import Agent
 from core.planner import decompose_task
 from core.executor import PlanExecutor
 from core.tool_registry import create_default_registry
+from core.notifications import fire_task_event
 from tools.ask_human import resolve_human_request
 
 router = APIRouter()
@@ -316,6 +317,13 @@ async def _execute_with_plan(task_id: str):
             "timestamp": datetime.now(timezone.utc).isoformat(),
         })
 
+        event_type = "task_completed" if result.status == "completed" else "task_failed"
+        await fire_task_event(task_id, event_type, {
+            "status": result.status,
+            "output": result.final_output[:500],
+            "goal": task.get("goal", ""),
+        })
+
     except Exception as e:
         async with get_db() as db:
             await update_task(db, task_id, status="failed", result=str(e))
@@ -326,6 +334,7 @@ async def _execute_with_plan(task_id: str):
             "data": {"error": str(e)},
             "timestamp": datetime.now(timezone.utc).isoformat(),
         })
+        await fire_task_event(task_id, "task_failed", {"status": "failed", "error": str(e)[:500], "goal": task.get("goal", "")})
     finally:
         _running_tasks.pop(task_id, None)
         _active_executors.pop(task_id, None)
@@ -381,6 +390,13 @@ async def _execute_single_agent(task_id: str):
             "timestamp": datetime.now(timezone.utc).isoformat(),
         })
 
+        event_type = "task_completed" if result.success else "task_failed"
+        await fire_task_event(task_id, event_type, {
+            "status": "completed" if result.success else "failed",
+            "output": result.output[:500],
+            "goal": task.get("goal", ""),
+        })
+
     except Exception as e:
         async with get_db() as db:
             await update_task(db, task_id, status="failed", result=str(e))
@@ -391,6 +407,7 @@ async def _execute_single_agent(task_id: str):
             "data": {"error": str(e)},
             "timestamp": datetime.now(timezone.utc).isoformat(),
         })
+        await fire_task_event(task_id, "task_failed", {"status": "failed", "error": str(e)[:500], "goal": task.get("goal", "")})
     finally:
         _running_tasks.pop(task_id, None)
         _active_agents.pop(task_id, None)

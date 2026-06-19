@@ -3,7 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from contextlib import asynccontextmanager
 from config import settings
 from database import init_db
-from routers import tasks, agents, workspace, templates, stats, plugins, schedules, chat, auth
+from routers import tasks, agents, workspace, templates, stats, plugins, schedules, chat, auth, webhooks
 
 
 @asynccontextmanager
@@ -42,3 +42,4 @@ app.include_router(plugins.router, prefix="/api")
 app.include_router(schedules.router, prefix="/api")
 app.include_router(chat.router, prefix="/api")
 app.include_router(auth.router, prefix="/api")
+app.include_router(webhooks.router, prefix="/api")
