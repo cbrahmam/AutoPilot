@@ -15,9 +15,10 @@ import TaskResult from '../components/TaskResult';
 import ShortcutsModal, { useKeyboardShortcuts } from '../components/KeyboardShortcuts';
 import StreamingPreview from '../components/StreamingPreview';
 import TaskComments from '../components/TaskComments';
+import ReportExport from '../components/ReportExport';
 import { toast } from '../components/Toast';
 
-import { Eye, MessageSquare } from 'lucide-react';
+import { Eye, MessageSquare, Download } from 'lucide-react';
 
 const TABS = [
   { id: 'execution', label: 'Execution', icon: Activity },
@@ -26,6 +27,7 @@ const TABS = [
   { id: 'workspace', label: 'Workspace', icon: FolderOpen },
   { id: 'result', label: 'Result', icon: BarChart3 },
   { id: 'comments', label: 'Comments', icon: MessageSquare },
+  { id: 'export', label: 'Export', icon: Download },
 ];
 
 export default function TaskDetailPage() {
@@ -189,6 +191,11 @@ export default function TaskDetailPage() {
           {activeTab === 'comments' && (
             <div className="p-4">
               <TaskComments taskId={taskId} />
+            </div>
+          )}
+          {activeTab === 'export' && (
+            <div className="p-4">
+              <ReportExport taskId={taskId} />
             </div>
           )}
         </div>
