@@ -3,7 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from contextlib import asynccontextmanager
 from config import settings
 from database import init_db
-from routers import tasks, agents, workspace, templates, stats, plugins, schedules, chat, auth, webhooks
+from routers import tasks, agents, workspace, templates, stats, plugins, schedules, chat, auth, webhooks, knowledge
 
 
 @asynccontextmanager
@@ -12,6 +12,8 @@ async def lifespan(app: FastAPI):
     await init_db()
     from plugins import discover_plugins
     discover_plugins()
+    from core.knowledge_base import rebuild_index
+    await rebuild_index()
     from core.scheduler import scheduler
     await scheduler.start()
     yield
@@ -43,3 +45,4 @@ app.include_router(schedules.router, prefix="/api")
 app.include_router(chat.router, prefix="/api")
 app.include_router(auth.router, prefix="/api")
 app.include_router(webhooks.router, prefix="/api")
+app.include_router(knowledge.router, prefix="/api")
