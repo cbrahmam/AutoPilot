@@ -78,6 +78,51 @@ CREATE TABLE IF NOT EXISTS users (
     display_name TEXT,
     created_at TEXT
 );
+
+CREATE TABLE IF NOT EXISTS webhooks (
+    id TEXT PRIMARY KEY,
+    name TEXT NOT NULL,
+    source TEXT NOT NULL,
+    secret TEXT,
+    goal_template TEXT NOT NULL,
+    enabled INTEGER DEFAULT 1,
+    trigger_count INTEGER DEFAULT 0,
+    last_triggered TEXT,
+    created_at TEXT
+);
+
+CREATE TABLE IF NOT EXISTS webhook_logs (
+    id TEXT PRIMARY KEY,
+    webhook_id TEXT,
+    source TEXT,
+    payload TEXT,
+    task_id TEXT,
+    status TEXT DEFAULT 'received',
+    created_at TEXT,
+    FOREIGN KEY (webhook_id) REFERENCES webhooks(id)
+);
+
+CREATE TABLE IF NOT EXISTS notifications (
+    id TEXT PRIMARY KEY,
+    task_id TEXT,
+    type TEXT NOT NULL,
+    target TEXT NOT NULL,
+    payload TEXT,
+    status TEXT DEFAULT 'pending',
+    sent_at TEXT,
+    created_at TEXT,
+    FOREIGN KEY (task_id) REFERENCES tasks(id)
+);
+
+CREATE TABLE IF NOT EXISTS notification_rules (
+    id TEXT PRIMARY KEY,
+    name TEXT NOT NULL,
+    event TEXT NOT NULL,
+    channel TEXT NOT NULL,
+    target TEXT NOT NULL,
+    enabled INTEGER DEFAULT 1,
+    created_at TEXT
+);
 """
 
 
