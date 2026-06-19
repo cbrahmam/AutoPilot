@@ -16,6 +16,7 @@ import ChatPage from './pages/ChatPage';
 import LoginPage from './pages/LoginPage';
 import WebhooksPage from './pages/WebhooksPage';
 import KnowledgePage from './pages/KnowledgePage';
+import AnalyticsPage from './pages/AnalyticsPage';
 
 export default function App() {
   return (
@@ -30,6 +31,7 @@ export default function App() {
               <Route path="/history" element={<HistoryPage />} />
               <Route path="/templates" element={<TemplatesPage />} />
               <Route path="/stats" element={<StatsPage />} />
+              <Route path="/analytics" element={<AnalyticsPage />} />
               <Route path="/schedules" element={<SchedulesPage />} />
               <Route path="/plugins" element={<PluginsPage />} />
               <Route path="/webhooks" element={<WebhooksPage />} />
