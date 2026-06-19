@@ -123,6 +123,25 @@ CREATE TABLE IF NOT EXISTS notification_rules (
     enabled INTEGER DEFAULT 1,
     created_at TEXT
 );
+
+CREATE TABLE IF NOT EXISTS kb_documents (
+    id TEXT PRIMARY KEY,
+    filename TEXT NOT NULL,
+    content_type TEXT,
+    size_bytes INTEGER DEFAULT 0,
+    chunk_count INTEGER DEFAULT 0,
+    created_at TEXT
+);
+
+CREATE TABLE IF NOT EXISTS kb_chunks (
+    id TEXT PRIMARY KEY,
+    document_id TEXT,
+    chunk_index INTEGER,
+    content TEXT NOT NULL,
+    tokens INTEGER DEFAULT 0,
+    created_at TEXT,
+    FOREIGN KEY (document_id) REFERENCES kb_documents(id)
+);
 """
 
 
