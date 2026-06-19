@@ -15,6 +15,7 @@ import SchedulesPage from './pages/SchedulesPage';
 import ChatPage from './pages/ChatPage';
 import LoginPage from './pages/LoginPage';
 import WebhooksPage from './pages/WebhooksPage';
+import KnowledgePage from './pages/KnowledgePage';
 
 export default function App() {
   return (
@@ -32,6 +33,7 @@ export default function App() {
               <Route path="/schedules" element={<SchedulesPage />} />
               <Route path="/plugins" element={<PluginsPage />} />
               <Route path="/webhooks" element={<WebhooksPage />} />
+              <Route path="/knowledge" element={<KnowledgePage />} />
               <Route path="/settings" element={<SettingsPage />} />
               <Route path="/demo/:demoId" element={<DemoReplayPage />} />
               <Route path="/login" element={<LoginPage />} />

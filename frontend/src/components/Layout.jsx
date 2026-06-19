@@ -1,5 +1,5 @@
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { Plus, History, Cpu, LayoutTemplate, BarChart3, Settings, Puzzle, Clock, MessageSquare, LogOut, Webhook } from 'lucide-react';
+import { Plus, History, Cpu, LayoutTemplate, BarChart3, Settings, Puzzle, Clock, MessageSquare, LogOut, Webhook, BookOpen } from 'lucide-react';
 
 export default function Layout({ children }) {
   const location = useLocation();
@@ -21,6 +21,7 @@ export default function Layout({ children }) {
     { path: '/schedules', icon: Clock, label: 'Schedules' },
     { path: '/plugins', icon: Puzzle, label: 'Plugins' },
     { path: '/webhooks', icon: Webhook, label: 'Webhooks' },
+    { path: '/knowledge', icon: BookOpen, label: 'Knowledge' },
     { path: '/settings', icon: Settings, label: 'Settings' },
   ];
 
