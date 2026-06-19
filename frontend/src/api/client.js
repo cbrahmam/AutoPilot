@@ -159,4 +159,22 @@ export const api = {
   getCostBreakdown: () => request('/analytics/cost-breakdown'),
 
   getRecentTasksAnalytics: () => request('/analytics/recent-tasks'),
+
+  getPipelines: () => request('/pipelines'),
+
+  createPipeline: (data) =>
+    request('/pipelines', { method: 'POST', body: JSON.stringify(data) }),
+
+  getPipeline: (id) => request(`/pipelines/${id}`),
+
+  updatePipeline: (id, data) =>
+    request(`/pipelines/${id}`, { method: 'PUT', body: JSON.stringify(data) }),
+
+  deletePipeline: (id) =>
+    request(`/pipelines/${id}`, { method: 'DELETE' }),
+
+  runPipeline: (id) =>
+    request(`/pipelines/${id}/run`, { method: 'POST' }),
+
+  getPipelineRuns: (id) => request(`/pipelines/${id}/runs`),
 };
