@@ -8,6 +8,7 @@ services:
       - AUTO_MODEL_ROUTING=true
     volumes:
       - backend-data:/app/workspaces
+      - backend-db:/app
       - ./backend/plugins:/app/plugins
     restart: unless-stopped
 
@@ -21,3 +22,4 @@ services:
 
 volumes:
   backend-data:
+  backend-db:
