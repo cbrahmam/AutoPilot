@@ -142,6 +142,28 @@ CREATE TABLE IF NOT EXISTS kb_chunks (
     created_at TEXT,
     FOREIGN KEY (document_id) REFERENCES kb_documents(id)
 );
+
+CREATE TABLE IF NOT EXISTS pipelines (
+    id TEXT PRIMARY KEY,
+    name TEXT NOT NULL,
+    description TEXT,
+    steps TEXT NOT NULL,
+    status TEXT DEFAULT 'idle',
+    current_step INTEGER DEFAULT 0,
+    run_count INTEGER DEFAULT 0,
+    last_run TEXT,
+    created_at TEXT
+);
+
+CREATE TABLE IF NOT EXISTS pipeline_runs (
+    id TEXT PRIMARY KEY,
+    pipeline_id TEXT,
+    status TEXT DEFAULT 'running',
+    step_results TEXT,
+    started_at TEXT,
+    completed_at TEXT,
+    FOREIGN KEY (pipeline_id) REFERENCES pipelines(id)
+);
 """
 
 
