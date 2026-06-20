@@ -1,5 +1,5 @@
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { Plus, History, Cpu, LayoutTemplate, BarChart3, Settings, Puzzle, Clock, MessageSquare, LogOut, Webhook, BookOpen, TrendingUp, GitBranch, Users, KeyRound, ShieldCheck, Shield, Bot, Star, HeartPulse } from 'lucide-react';
+import { Plus, History, Cpu, LayoutTemplate, BarChart3, Settings, Puzzle, Clock, MessageSquare, LogOut, Webhook, BookOpen, TrendingUp, GitBranch, Users, KeyRound, ShieldCheck, Shield, Bot, Star, HeartPulse, Search } from 'lucide-react';
 import ThemeToggle from './ThemeToggle';
 import NotificationBell from './NotificationBell';
 
@@ -47,6 +47,16 @@ export default function Layout({ children }) {
             </Link>
             <NotificationBell />
           </div>
+        </div>
+        <div className="mx-2 mt-2 mb-1">
+          <button
+            onClick={() => document.dispatchEvent(new KeyboardEvent('keydown', { key: 'k', metaKey: true }))}
+            className="w-full flex items-center gap-2 px-3 py-1.5 rounded-lg border border-border bg-bg-primary text-text-muted text-xs hover:border-accent/40 transition-colors"
+          >
+            <Search className="w-3 h-3" />
+            <span className="flex-1 text-left">Search...</span>
+            <kbd className="text-[10px] bg-bg-tertiary px-1 py-0.5 rounded border border-border">⌘K</kbd>
+          </button>
         </div>
         <nav className="flex-1 p-2">
           {navItems.map(({ path, icon: Icon, label }) => (
