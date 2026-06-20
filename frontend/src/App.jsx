@@ -26,6 +26,7 @@ import ProfilesPage from './pages/ProfilesPage';
 import FavoritesPage from './pages/FavoritesPage';
 import HealthPage from './pages/HealthPage';
 import { ThemeProvider } from './context/ThemeContext';
+import CommandPalette from './components/CommandPalette';
 
 export default function App() {
   return (
@@ -59,6 +60,7 @@ export default function App() {
               <Route path="/login" element={<LoginPage />} />
             </Routes>
           </Layout>
+          <CommandPalette />
           <ToastContainer />
         </BrowserRouter>
       </MobileGate>
