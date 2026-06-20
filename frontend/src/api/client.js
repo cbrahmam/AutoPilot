@@ -339,4 +339,7 @@ export const api = {
   getSystemInfo: () => request('/health/system'),
 
   getDatabaseInfo: () => request('/health/database'),
+
+  globalSearch: (query, limit = 20) =>
+    request(`/search?q=${encodeURIComponent(query)}&limit=${limit}`),
 };
