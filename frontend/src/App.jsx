@@ -21,6 +21,7 @@ import PipelinesPage from './pages/PipelinesPage';
 import TeamsPage from './pages/TeamsPage';
 import VaultPage from './pages/VaultPage';
 import ApprovalsPage from './pages/ApprovalsPage';
+import AuditPage from './pages/AuditPage';
 
 export default function App() {
   return (
@@ -44,6 +45,7 @@ export default function App() {
               <Route path="/teams" element={<TeamsPage />} />
               <Route path="/vault" element={<VaultPage />} />
               <Route path="/approvals" element={<ApprovalsPage />} />
+              <Route path="/audit" element={<AuditPage />} />
               <Route path="/settings" element={<SettingsPage />} />
               <Route path="/demo/:demoId" element={<DemoReplayPage />} />
               <Route path="/login" element={<LoginPage />} />

@@ -1,5 +1,5 @@
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { Plus, History, Cpu, LayoutTemplate, BarChart3, Settings, Puzzle, Clock, MessageSquare, LogOut, Webhook, BookOpen, TrendingUp, GitBranch, Users, KeyRound, ShieldCheck } from 'lucide-react';
+import { Plus, History, Cpu, LayoutTemplate, BarChart3, Settings, Puzzle, Clock, MessageSquare, LogOut, Webhook, BookOpen, TrendingUp, GitBranch, Users, KeyRound, ShieldCheck, Shield } from 'lucide-react';
 
 export default function Layout({ children }) {
   const location = useLocation();
@@ -27,6 +27,7 @@ export default function Layout({ children }) {
     { path: '/teams', icon: Users, label: 'Teams' },
     { path: '/vault', icon: KeyRound, label: 'Vault' },
     { path: '/approvals', icon: ShieldCheck, label: 'Approvals' },
+    { path: '/audit', icon: Shield, label: 'Audit Log' },
     { path: '/settings', icon: Settings, label: 'Settings' },
   ];
 
