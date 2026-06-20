@@ -1,6 +1,7 @@
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Plus, History, Cpu, LayoutTemplate, BarChart3, Settings, Puzzle, Clock, MessageSquare, LogOut, Webhook, BookOpen, TrendingUp, GitBranch, Users, KeyRound, ShieldCheck, Shield } from 'lucide-react';
 import ThemeToggle from './ThemeToggle';
+import NotificationBell from './NotificationBell';
 
 export default function Layout({ children }) {
   const location = useLocation();
@@ -36,10 +37,13 @@ export default function Layout({ children }) {
     <div className="flex h-screen bg-bg-primary">
       <aside className="w-56 border-r border-border bg-bg-secondary flex flex-col">
         <div className="p-4 border-b border-border">
-          <Link to="/" className="flex items-center gap-2 no-underline">
-            <Cpu className="w-6 h-6 text-accent" />
-            <span className="text-lg font-bold text-text-primary">AutoPilot</span>
-          </Link>
+          <div className="flex items-center justify-between">
+            <Link to="/" className="flex items-center gap-2 no-underline">
+              <Cpu className="w-6 h-6 text-accent" />
+              <span className="text-lg font-bold text-text-primary">AutoPilot</span>
+            </Link>
+            <NotificationBell />
+          </div>
         </div>
         <nav className="flex-1 p-2">
           {navItems.map(({ path, icon: Icon, label }) => (
