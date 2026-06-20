@@ -292,4 +292,20 @@ export const api = {
     request(`/inbox/notifications/${id}`, { method: 'DELETE' }),
 
   clearInbox: () => request('/inbox/clear', { method: 'DELETE' }),
+
+  getProfiles: () => request('/profiles'),
+
+  createProfile: (data) =>
+    request('/profiles', { method: 'POST', body: JSON.stringify(data) }),
+
+  getProfile: (id) => request(`/profiles/${id}`),
+
+  updateProfile: (id, data) =>
+    request(`/profiles/${id}`, { method: 'PUT', body: JSON.stringify(data) }),
+
+  deleteProfile: (id) =>
+    request(`/profiles/${id}`, { method: 'DELETE' }),
+
+  duplicateProfile: (id) =>
+    request(`/profiles/${id}/duplicate`, { method: 'POST' }),
 };
