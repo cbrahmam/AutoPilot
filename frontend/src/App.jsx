@@ -22,6 +22,7 @@ import TeamsPage from './pages/TeamsPage';
 import VaultPage from './pages/VaultPage';
 import ApprovalsPage from './pages/ApprovalsPage';
 import AuditPage from './pages/AuditPage';
+import ProfilesPage from './pages/ProfilesPage';
 import { ThemeProvider } from './context/ThemeContext';
 
 export default function App() {
@@ -48,6 +49,7 @@ export default function App() {
               <Route path="/vault" element={<VaultPage />} />
               <Route path="/approvals" element={<ApprovalsPage />} />
               <Route path="/audit" element={<AuditPage />} />
+              <Route path="/profiles" element={<ProfilesPage />} />
               <Route path="/settings" element={<SettingsPage />} />
               <Route path="/demo/:demoId" element={<DemoReplayPage />} />
               <Route path="/login" element={<LoginPage />} />

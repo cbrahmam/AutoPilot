@@ -1,5 +1,5 @@
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { Plus, History, Cpu, LayoutTemplate, BarChart3, Settings, Puzzle, Clock, MessageSquare, LogOut, Webhook, BookOpen, TrendingUp, GitBranch, Users, KeyRound, ShieldCheck, Shield } from 'lucide-react';
+import { Plus, History, Cpu, LayoutTemplate, BarChart3, Settings, Puzzle, Clock, MessageSquare, LogOut, Webhook, BookOpen, TrendingUp, GitBranch, Users, KeyRound, ShieldCheck, Shield, Bot } from 'lucide-react';
 import ThemeToggle from './ThemeToggle';
 import NotificationBell from './NotificationBell';
 
@@ -30,6 +30,7 @@ export default function Layout({ children }) {
     { path: '/vault', icon: KeyRound, label: 'Vault' },
     { path: '/approvals', icon: ShieldCheck, label: 'Approvals' },
     { path: '/audit', icon: Shield, label: 'Audit Log' },
+    { path: '/profiles', icon: Bot, label: 'Profiles' },
     { path: '/settings', icon: Settings, label: 'Settings' },
   ];
 
