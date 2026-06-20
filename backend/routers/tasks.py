@@ -17,6 +17,7 @@ from core.tool_registry import create_default_registry
 from core.notifications import fire_task_event
 from tools.ask_human import resolve_human_request
 from core.audit import log_audit
+from core.inbox import notify_task_event
 
 router = APIRouter()
 
@@ -325,6 +326,7 @@ async def _execute_with_plan(task_id: str):
             "output": result.final_output[:500],
             "goal": task.get("goal", ""),
         })
+        await notify_task_event(task_id, task.get("goal", ""), "completed" if result.status == "completed" else "failed")
 
     except Exception as e:
         async with get_db() as db:
@@ -337,6 +339,7 @@ async def _execute_with_plan(task_id: str):
             "timestamp": datetime.now(timezone.utc).isoformat(),
         })
         await fire_task_event(task_id, "task_failed", {"status": "failed", "error": str(e)[:500], "goal": task.get("goal", "")})
+        await notify_task_event(task_id, task.get("goal", ""), "failed")
     finally:
         _running_tasks.pop(task_id, None)
         _active_executors.pop(task_id, None)
@@ -398,6 +401,7 @@ async def _execute_single_agent(task_id: str):
             "output": result.output[:500],
             "goal": task.get("goal", ""),
         })
+        await notify_task_event(task_id, task.get("goal", ""), "completed" if result.success else "failed")
 
     except Exception as e:
         async with get_db() as db:
@@ -410,6 +414,7 @@ async def _execute_single_agent(task_id: str):
             "timestamp": datetime.now(timezone.utc).isoformat(),
         })
         await fire_task_event(task_id, "task_failed", {"status": "failed", "error": str(e)[:500], "goal": task.get("goal", "")})
+        await notify_task_event(task_id, task.get("goal", ""), "failed")
     finally:
         _running_tasks.pop(task_id, None)
         _active_agents.pop(task_id, None)
