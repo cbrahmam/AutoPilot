@@ -308,4 +308,20 @@ export const api = {
 
   duplicateProfile: (id) =>
     request(`/profiles/${id}/duplicate`, { method: 'POST' }),
+
+  getFavorites: (targetType, detailed = false) => {
+    const qs = new URLSearchParams();
+    if (targetType) qs.set('target_type', targetType);
+    if (detailed) qs.set('detailed', 'true');
+    return request(`/favorites?${qs.toString()}`);
+  },
+
+  addFavorite: (targetType, targetId) =>
+    request('/favorites', { method: 'POST', body: JSON.stringify({ target_type: targetType, target_id: targetId }) }),
+
+  removeFavorite: (targetType, targetId) =>
+    request('/favorites', { method: 'DELETE', body: JSON.stringify({ target_type: targetType, target_id: targetId }) }),
+
+  checkFavorite: (targetType, targetId) =>
+    request(`/favorites/check?target_type=${targetType}&target_id=${targetId}`),
 };
