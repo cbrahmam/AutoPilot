@@ -277,4 +277,19 @@ export const api = {
     if (params.limit) qs.set('limit', params.limit);
     return `${BASE}/audit/export/csv?${qs.toString()}`;
   },
+
+  getInboxNotifications: (unreadOnly = false, limit = 50) =>
+    request(`/inbox/notifications?unread_only=${unreadOnly}&limit=${limit}`),
+
+  getUnreadCount: () => request('/inbox/unread-count'),
+
+  markNotificationRead: (id) =>
+    request(`/inbox/notifications/${id}/read`, { method: 'PUT' }),
+
+  markAllRead: () => request('/inbox/read-all', { method: 'PUT' }),
+
+  deleteNotification: (id) =>
+    request(`/inbox/notifications/${id}`, { method: 'DELETE' }),
+
+  clearInbox: () => request('/inbox/clear', { method: 'DELETE' }),
 };
