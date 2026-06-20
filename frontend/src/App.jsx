@@ -22,9 +22,11 @@ import TeamsPage from './pages/TeamsPage';
 import VaultPage from './pages/VaultPage';
 import ApprovalsPage from './pages/ApprovalsPage';
 import AuditPage from './pages/AuditPage';
+import { ThemeProvider } from './context/ThemeContext';
 
 export default function App() {
   return (
+    <ThemeProvider>
     <ErrorBoundary>
       <MobileGate>
         <BrowserRouter>
@@ -55,5 +57,6 @@ export default function App() {
         </BrowserRouter>
       </MobileGate>
     </ErrorBoundary>
+    </ThemeProvider>
   );
 }
