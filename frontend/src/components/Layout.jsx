@@ -1,5 +1,6 @@
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Plus, History, Cpu, LayoutTemplate, BarChart3, Settings, Puzzle, Clock, MessageSquare, LogOut, Webhook, BookOpen, TrendingUp, GitBranch, Users, KeyRound, ShieldCheck, Shield } from 'lucide-react';
+import ThemeToggle from './ThemeToggle';
 
 export default function Layout({ children }) {
   const location = useLocation();
@@ -56,7 +57,8 @@ export default function Layout({ children }) {
             </Link>
           ))}
         </nav>
-        <div className="p-4 border-t border-border">
+        <div className="p-4 border-t border-border space-y-2">
+          <ThemeToggle />
           {user ? (
             <div className="flex items-center justify-between">
               <span className="text-xs text-text-muted truncate">{user.display_name || user.email}</span>
