@@ -324,4 +324,19 @@ export const api = {
 
   checkFavorite: (targetType, targetId) =>
     request(`/favorites/check?target_type=${targetType}&target_id=${targetId}`),
+
+  getHealthCheck: () => request('/health'),
+
+  getHealthHistory: (service, limit = 50) => {
+    const qs = new URLSearchParams();
+    if (service) qs.set('service', service);
+    qs.set('limit', limit);
+    return request(`/health/history?${qs.toString()}`);
+  },
+
+  getUptime: () => request('/health/uptime'),
+
+  getSystemInfo: () => request('/health/system'),
+
+  getDatabaseInfo: () => request('/health/database'),
 };
