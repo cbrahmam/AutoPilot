@@ -67,7 +67,7 @@ export default function Layout({ children }) {
               </button>
             </div>
           ) : (
-            <p className="text-xs text-text-muted">AutoPilot v0.3.0</p>
+            <p className="text-xs text-text-muted">AutoPilot v0.4.0</p>
           )}
         </div>
       </aside>

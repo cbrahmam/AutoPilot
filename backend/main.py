@@ -25,7 +25,7 @@ async def lifespan(app: FastAPI):
         pass
 
 
-app = FastAPI(title="AutoPilot", version="0.3.0", lifespan=lifespan)
+app = FastAPI(title="AutoPilot", version="0.4.0", lifespan=lifespan)
 
 app.add_middleware(
     CORSMiddleware,
