@@ -251,6 +251,47 @@ CREATE TABLE IF NOT EXISTS approval_rules (
     created_at TEXT
 );
 
+CREATE TABLE IF NOT EXISTS inbox_notifications (
+    id TEXT PRIMARY KEY,
+    user_id TEXT,
+    title TEXT NOT NULL,
+    message TEXT,
+    category TEXT DEFAULT 'info',
+    link TEXT,
+    read INTEGER DEFAULT 0,
+    created_at TEXT
+);
+
+CREATE TABLE IF NOT EXISTS agent_profiles (
+    id TEXT PRIMARY KEY,
+    name TEXT NOT NULL,
+    description TEXT,
+    system_prompt TEXT,
+    model TEXT DEFAULT 'claude-sonnet-4-20250514',
+    tools TEXT,
+    max_iterations INTEGER DEFAULT 25,
+    temperature REAL DEFAULT 0.7,
+    created_by TEXT,
+    created_at TEXT
+);
+
+CREATE TABLE IF NOT EXISTS favorites (
+    id TEXT PRIMARY KEY,
+    user_id TEXT,
+    target_type TEXT NOT NULL,
+    target_id TEXT NOT NULL,
+    created_at TEXT
+);
+
+CREATE TABLE IF NOT EXISTS health_checks (
+    id TEXT PRIMARY KEY,
+    service TEXT NOT NULL,
+    status TEXT DEFAULT 'unknown',
+    response_time_ms INTEGER DEFAULT 0,
+    details TEXT,
+    checked_at TEXT
+);
+
 CREATE TABLE IF NOT EXISTS shared_reports (
     id TEXT PRIMARY KEY,
     task_id TEXT,
