@@ -16,6 +16,7 @@ import ShortcutsModal, { useKeyboardShortcuts } from '../components/KeyboardShor
 import StreamingPreview from '../components/StreamingPreview';
 import TaskComments from '../components/TaskComments';
 import ReportExport from '../components/ReportExport';
+import FavoriteButton from '../components/FavoriteButton';
 import { toast } from '../components/Toast';
 
 import { Eye, MessageSquare, Download } from 'lucide-react';
@@ -122,9 +123,12 @@ export default function TaskDetailPage() {
             <ArrowLeft className="w-4 h-4" />
           </button>
           <div className="min-w-0">
-            <p className="text-sm font-medium text-text-primary truncate">
-              {currentTask?.goal || 'Loading...'}
-            </p>
+            <div className="flex items-center gap-2">
+              <p className="text-sm font-medium text-text-primary truncate">
+                {currentTask?.goal || 'Loading...'}
+              </p>
+              {taskId && <FavoriteButton targetType="task" targetId={taskId} />}
+            </div>
             <p className="text-xs text-text-muted capitalize">{currentTask?.status || ''}</p>
           </div>
         </div>

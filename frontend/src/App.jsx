@@ -23,6 +23,7 @@ import VaultPage from './pages/VaultPage';
 import ApprovalsPage from './pages/ApprovalsPage';
 import AuditPage from './pages/AuditPage';
 import ProfilesPage from './pages/ProfilesPage';
+import FavoritesPage from './pages/FavoritesPage';
 import { ThemeProvider } from './context/ThemeContext';
 
 export default function App() {
@@ -50,6 +51,7 @@ export default function App() {
               <Route path="/approvals" element={<ApprovalsPage />} />
               <Route path="/audit" element={<AuditPage />} />
               <Route path="/profiles" element={<ProfilesPage />} />
+              <Route path="/favorites" element={<FavoritesPage />} />
               <Route path="/settings" element={<SettingsPage />} />
               <Route path="/demo/:demoId" element={<DemoReplayPage />} />
               <Route path="/login" element={<LoginPage />} />
