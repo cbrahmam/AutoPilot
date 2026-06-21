@@ -27,6 +27,7 @@ import FavoritesPage from './pages/FavoritesPage';
 import HealthPage from './pages/HealthPage';
 import TagsPage from './pages/TagsPage';
 import EnvPage from './pages/EnvPage';
+import TimelinePage from './pages/TimelinePage';
 import { ThemeProvider } from './context/ThemeContext';
 import CommandPalette from './components/CommandPalette';
 
@@ -59,6 +60,7 @@ export default function App() {
               <Route path="/health" element={<HealthPage />} />
               <Route path="/tags" element={<TagsPage />} />
               <Route path="/env" element={<EnvPage />} />
+              <Route path="/timeline" element={<TimelinePage />} />
               <Route path="/settings" element={<SettingsPage />} />
               <Route path="/demo/:demoId" element={<DemoReplayPage />} />
               <Route path="/login" element={<LoginPage />} />

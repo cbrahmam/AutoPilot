@@ -1,5 +1,5 @@
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { Plus, History, Cpu, LayoutTemplate, BarChart3, Settings, Puzzle, Clock, MessageSquare, LogOut, Webhook, BookOpen, TrendingUp, GitBranch, Users, KeyRound, ShieldCheck, Shield, Bot, Star, HeartPulse, Search, Tag, Variable } from 'lucide-react';
+import { Plus, History, Cpu, LayoutTemplate, BarChart3, Settings, Puzzle, Clock, MessageSquare, LogOut, Webhook, BookOpen, TrendingUp, GitBranch, Users, KeyRound, ShieldCheck, Shield, Bot, Star, HeartPulse, Search, Tag, Variable, Activity } from 'lucide-react';
 import ThemeToggle from './ThemeToggle';
 import NotificationBell from './NotificationBell';
 
@@ -35,6 +35,7 @@ export default function Layout({ children }) {
     { path: '/health', icon: HeartPulse, label: 'Health' },
     { path: '/tags', icon: Tag, label: 'Tags' },
     { path: '/env', icon: Variable, label: 'Env Vars' },
+    { path: '/timeline', icon: Activity, label: 'Timeline' },
     { path: '/settings', icon: Settings, label: 'Settings' },
   ];
 
