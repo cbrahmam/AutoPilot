@@ -342,4 +342,27 @@ export const api = {
 
   globalSearch: (query, limit = 20) =>
     request(`/search?q=${encodeURIComponent(query)}&limit=${limit}`),
+
+  getTags: () => request('/tags'),
+
+  createTag: (data) =>
+    request('/tags', { method: 'POST', body: JSON.stringify(data) }),
+
+  updateTag: (id, data) =>
+    request(`/tags/${id}`, { method: 'PUT', body: JSON.stringify(data) }),
+
+  deleteTag: (id) =>
+    request(`/tags/${id}`, { method: 'DELETE' }),
+
+  getTagCounts: () => request('/tags/counts'),
+
+  getTaskTags: (taskId) => request(`/tags/task/${taskId}`),
+
+  addTagToTask: (taskId, tagId) =>
+    request(`/tags/task/${taskId}/${tagId}`, { method: 'POST' }),
+
+  removeTagFromTask: (taskId, tagId) =>
+    request(`/tags/task/${taskId}/${tagId}`, { method: 'DELETE' }),
+
+  getTasksByTag: (tagId) => request(`/tags/tasks/${tagId}`),
 };
