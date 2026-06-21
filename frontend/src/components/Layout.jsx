@@ -1,5 +1,5 @@
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { Plus, History, Cpu, LayoutTemplate, BarChart3, Settings, Puzzle, Clock, MessageSquare, LogOut, Webhook, BookOpen, TrendingUp, GitBranch, Users, KeyRound, ShieldCheck, Shield, Bot, Star, HeartPulse, Search, Tag, Variable, Activity, HardDrive } from 'lucide-react';
+import { Plus, History, Cpu, LayoutTemplate, BarChart3, Settings, Puzzle, Clock, MessageSquare, LogOut, Webhook, BookOpen, TrendingUp, GitBranch, Users, KeyRound, ShieldCheck, Shield, Bot, Star, HeartPulse, Search, Tag, Variable, Activity, HardDrive, SlidersHorizontal } from 'lucide-react';
 import ThemeToggle from './ThemeToggle';
 import NotificationBell from './NotificationBell';
 
@@ -37,6 +37,7 @@ export default function Layout({ children }) {
     { path: '/env', icon: Variable, label: 'Env Vars' },
     { path: '/timeline', icon: Activity, label: 'Timeline' },
     { path: '/backups', icon: HardDrive, label: 'Backups' },
+    { path: '/preferences', icon: SlidersHorizontal, label: 'Preferences' },
     { path: '/settings', icon: Settings, label: 'Settings' },
   ];
 
