@@ -292,6 +292,63 @@ CREATE TABLE IF NOT EXISTS health_checks (
     checked_at TEXT
 );
 
+CREATE TABLE IF NOT EXISTS tags (
+    id TEXT PRIMARY KEY,
+    name TEXT NOT NULL UNIQUE,
+    color TEXT DEFAULT '#6366f1',
+    description TEXT,
+    created_at TEXT
+);
+
+CREATE TABLE IF NOT EXISTS task_tags (
+    id TEXT PRIMARY KEY,
+    task_id TEXT,
+    tag_id TEXT,
+    created_at TEXT,
+    FOREIGN KEY (task_id) REFERENCES tasks(id),
+    FOREIGN KEY (tag_id) REFERENCES tags(id)
+);
+
+CREATE TABLE IF NOT EXISTS env_variables (
+    id TEXT PRIMARY KEY,
+    name TEXT NOT NULL,
+    value TEXT NOT NULL,
+    scope TEXT DEFAULT 'global',
+    scope_id TEXT,
+    encrypted INTEGER DEFAULT 0,
+    created_by TEXT,
+    created_at TEXT
+);
+
+CREATE TABLE IF NOT EXISTS timeline_events (
+    id TEXT PRIMARY KEY,
+    event_type TEXT NOT NULL,
+    title TEXT NOT NULL,
+    description TEXT,
+    source TEXT,
+    source_id TEXT,
+    metadata TEXT,
+    created_at TEXT
+);
+
+CREATE TABLE IF NOT EXISTS backups (
+    id TEXT PRIMARY KEY,
+    filename TEXT NOT NULL,
+    size_bytes INTEGER DEFAULT 0,
+    tables_included TEXT,
+    row_counts TEXT,
+    created_by TEXT,
+    created_at TEXT
+);
+
+CREATE TABLE IF NOT EXISTS user_preferences (
+    id TEXT PRIMARY KEY,
+    user_id TEXT UNIQUE,
+    preferences TEXT NOT NULL,
+    updated_at TEXT,
+    created_at TEXT
+);
+
 CREATE TABLE IF NOT EXISTS shared_reports (
     id TEXT PRIMARY KEY,
     task_id TEXT,
