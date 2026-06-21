@@ -25,6 +25,7 @@ import AuditPage from './pages/AuditPage';
 import ProfilesPage from './pages/ProfilesPage';
 import FavoritesPage from './pages/FavoritesPage';
 import HealthPage from './pages/HealthPage';
+import TagsPage from './pages/TagsPage';
 import { ThemeProvider } from './context/ThemeContext';
 import CommandPalette from './components/CommandPalette';
 
@@ -55,6 +56,7 @@ export default function App() {
               <Route path="/profiles" element={<ProfilesPage />} />
               <Route path="/favorites" element={<FavoritesPage />} />
               <Route path="/health" element={<HealthPage />} />
+              <Route path="/tags" element={<TagsPage />} />
               <Route path="/settings" element={<SettingsPage />} />
               <Route path="/demo/:demoId" element={<DemoReplayPage />} />
               <Route path="/login" element={<LoginPage />} />

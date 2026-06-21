@@ -17,6 +17,7 @@ import StreamingPreview from '../components/StreamingPreview';
 import TaskComments from '../components/TaskComments';
 import ReportExport from '../components/ReportExport';
 import FavoriteButton from '../components/FavoriteButton';
+import TagSelector from '../components/TagSelector';
 import { toast } from '../components/Toast';
 
 import { Eye, MessageSquare, Download } from 'lucide-react';
@@ -130,6 +131,7 @@ export default function TaskDetailPage() {
               {taskId && <FavoriteButton targetType="task" targetId={taskId} />}
             </div>
             <p className="text-xs text-text-muted capitalize">{currentTask?.status || ''}</p>
+            {taskId && <TagSelector taskId={taskId} />}
           </div>
         </div>
         {isExecuting && (
