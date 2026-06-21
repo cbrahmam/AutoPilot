@@ -406,4 +406,14 @@ export const api = {
   restoreBackup: (id) => request(`/backups/${id}/restore`, { method: 'POST' }),
 
   deleteBackup: (id) => request(`/backups/${id}`, { method: 'DELETE' }),
+
+  getPreferences: () => request('/preferences'),
+
+  savePreferences: (prefs) =>
+    request('/preferences', { method: 'PUT', body: JSON.stringify({ preferences: prefs }) }),
+
+  updatePreference: (key, value) =>
+    request('/preferences', { method: 'PATCH', body: JSON.stringify({ key, value }) }),
+
+  resetPreferences: () => request('/preferences', { method: 'DELETE' }),
 };
