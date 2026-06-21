@@ -365,4 +365,22 @@ export const api = {
     request(`/tags/task/${taskId}/${tagId}`, { method: 'DELETE' }),
 
   getTasksByTag: (tagId) => request(`/tags/tasks/${tagId}`),
+
+  getEnvVars: (scope, scopeId) => {
+    const qs = new URLSearchParams();
+    if (scope) qs.set('scope', scope);
+    if (scopeId) qs.set('scope_id', scopeId);
+    return request(`/env/variables?${qs.toString()}`);
+  },
+
+  createEnvVar: (data) =>
+    request('/env/variables', { method: 'POST', body: JSON.stringify(data) }),
+
+  updateEnvVar: (id, data) =>
+    request(`/env/variables/${id}`, { method: 'PUT', body: JSON.stringify(data) }),
+
+  deleteEnvVar: (id) =>
+    request(`/env/variables/${id}`, { method: 'DELETE' }),
+
+  revealEnvVar: (id) => request(`/env/variables/${id}?reveal=true`),
 };
