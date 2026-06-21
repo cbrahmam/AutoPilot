@@ -383,4 +383,17 @@ export const api = {
     request(`/env/variables/${id}`, { method: 'DELETE' }),
 
   revealEnvVar: (id) => request(`/env/variables/${id}?reveal=true`),
+
+  getTimelineEvents: (params = {}) => {
+    const qs = new URLSearchParams();
+    if (params.event_type) qs.set('event_type', params.event_type);
+    if (params.source) qs.set('source', params.source);
+    if (params.limit) qs.set('limit', params.limit);
+    if (params.offset) qs.set('offset', params.offset);
+    return request(`/timeline/events?${qs.toString()}`);
+  },
+
+  getTimelineStats: () => request('/timeline/stats'),
+
+  rebuildTimeline: () => request('/timeline/rebuild', { method: 'POST' }),
 };
