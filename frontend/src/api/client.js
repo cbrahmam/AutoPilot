@@ -396,4 +396,14 @@ export const api = {
   getTimelineStats: () => request('/timeline/stats'),
 
   rebuildTimeline: () => request('/timeline/rebuild', { method: 'POST' }),
+
+  getBackups: () => request('/backups'),
+
+  createBackup: () => request('/backups', { method: 'POST' }),
+
+  downloadBackup: (id) => `${BASE}/backups/${id}/download`,
+
+  restoreBackup: (id) => request(`/backups/${id}/restore`, { method: 'POST' }),
+
+  deleteBackup: (id) => request(`/backups/${id}`, { method: 'DELETE' }),
 };
